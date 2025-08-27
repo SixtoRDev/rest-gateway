@@ -1,0 +1,13 @@
+no se va a validar el payload. 
+vamos a hacer un domain driven design por lo que crea un diagrama UML que defina los objetos del dominio.
+
+en cuanto al modelo del dominio quiero plantear varios cambios para separar siempre lo entrante de lo saliente dado que pueden tener configuraciones distintas:
+- Sistemas externos: id, nombre, descripcion, secretkey, urlorigen, activo, creadoEl
+- Sistemas internos: id, nombre, descripcion, urlinterna, activo, creatoEl
+- Log de peticiones externas: id, timestamp, origen, destino, payload, status, message
+- Log de llamadas internos: id, timestamp, origen, destino, payload, status, message
+- routes_external: id, origen, destino, timestamp, activo
+- routes_internal: id, origen, destino, timestamp, activo
+evaluar si fuera necesario algo más.
+
+Añadir también la gestión de usuarios que pueden acceder a la aplicación-web de conecta, basado en usuario contraseña.
