@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" width="639px" height="767px" viewBox="0, 0, 639, 767" preserveAspectRatio="none" contentStyleType="text/css" zoomAndPan="magnify" style="background-attachment:initial;background-clip:initial;background-color:#FFFFFF;background-image:initial;background-origin:initial;background-position:initial;background-repeat:initial;background-size:initial;">
+  <defs />
+  <g>
+    <g id="elem_JwtTokenValidator">
+      <rect x="58" y="12" width="220.7256" height="158.9902" rx="2.5" ry="2.5" id="JwtTokenValidator" stroke-width="1" codeLine="6" style="fill:white;stroke:black;" />
+      <ellipse cx="123.4824" cy="26" rx="9" ry="9" stroke-width="1" style="fill:white;stroke:black;" />
+      <path d="M125.2949 26.875 L126.6855 27.3125 Q126.373 28.4844 125.623 29.0625 Q124.873 29.625 123.7168 29.625 Q122.2949 29.625 121.373 28.6563 Q120.4512 27.6719 120.4512 25.9844 Q120.4512 24.2031 121.373 23.2188 Q122.2949 22.2188 123.8105 22.2188 Q125.123 22.2188 125.9355 23 Q126.4355 23.4531 126.6699 24.3125 L125.248 24.6563 Q125.1074 24.0938 124.7012 23.7813 Q124.3105 23.4531 123.7324 23.4531 Q122.9355 23.4531 122.4355 24.0313 Q121.9512 24.5938 121.9512 25.875 Q121.9512 27.2344 122.4355 27.8125 Q122.9199 28.3906 123.7012 28.3906 Q124.2793 28.3906 124.6855 28.0313 Q125.1074 27.6563 125.2949 26.875 Z" style="fill:black;" />
+      <text x="140.9824" y="29.6304" textLength="82.2607" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">JwtTokenValidator</text>
+      <line x1="59" y1="40" x2="277.7256" y2="40" stroke-width="1" style="stroke:black;" />
+      <text x="64" y="53.3799" textLength="79.4727" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-secretKey: String</text>
+      <text x="64" y="64.8789" textLength="61.6846" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-issuer: String</text>
+      <text x="64" y="76.3779" textLength="75.6006" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-audience: String</text>
+      <text x="64" y="87.877" textLength="126.1719" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-clockSkewSeconds: Integer</text>
+      <line x1="59" y1="93.9961" x2="277.7256" y2="93.9961" stroke-width="1" style="stroke:black;" />
+      <text x="64" y="107.376" textLength="208.7256" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+validateToken(token: String): ValidationResult</text>
+      <text x="64" y="118.875" textLength="165.3223" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+extractClaims(token: String): Claims</text>
+      <text x="64" y="130.374" textLength="179.8193" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+isTokenExpired(token: String): Boolean</text>
+      <text x="64" y="141.873" textLength="175.3711" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getTokenSubject(token: String): String</text>
+      <text x="64" y="153.3721" textLength="172.5977" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+validateIssuer(token: String): Boolean</text>
+      <text x="64" y="164.8711" textLength="187.0654" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+validateAudience(token: String): Boolean</text>
+    </g>
+    <g id="elem_JwtTokenGenerator">
+      <rect x="314.5" y="29.5" width="317.9766" height="124.4932" rx="2.5" ry="2.5" id="JwtTokenGenerator" stroke-width="1" codeLine="19" style="fill:white;stroke:black;" />
+      <ellipse cx="425.8296" cy="43.5" rx="9" ry="9" stroke-width="1" style="fill:white;stroke:black;" />
+      <path d="M427.6421 44.375 L429.0327 44.8125 Q428.7202 45.9844 427.9702 46.5625 Q427.2202 47.125 426.064 47.125 Q424.6421 47.125 423.7202 46.1563 Q422.7983 45.1719 422.7983 43.4844 Q422.7983 41.7031 423.7202 40.7188 Q424.6421 39.7188 426.1577 39.7188 Q427.4702 39.7188 428.2827 40.5 Q428.7827 40.9531 429.0171 41.8125 L427.5952 42.1563 Q427.4546 41.5938 427.0483 41.2813 Q426.6577 40.9531 426.0796 40.9531 Q425.2827 40.9531 424.7827 41.5313 Q424.2983 42.0938 424.2983 43.375 Q424.2983 44.7344 424.7827 45.3125 Q425.2671 45.8906 426.0483 45.8906 Q426.6265 45.8906 427.0327 45.5313 Q427.4546 45.1563 427.6421 44.375 Z" style="fill:black;" />
+      <text x="443.3296" y="47.1304" textLength="87.8174" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">JwtTokenGenerator</text>
+      <line x1="315.5" y1="57.5" x2="631.4766" y2="57.5" stroke-width="1" style="stroke:black;" />
+      <text x="320.5" y="70.8799" textLength="79.4727" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-secretKey: String</text>
+      <text x="320.5" y="82.3789" textLength="61.6846" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-issuer: String</text>
+      <text x="320.5" y="93.8779" textLength="141.1865" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-defaultExpirationHours: Integer</text>
+      <line x1="315.5" y1="99.9971" x2="631.4766" y2="99.9971" stroke-width="1" style="stroke:black;" />
+      <text x="320.5" y="113.377" textLength="305.9766" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+generateToken(subject: String, claims: Map&lt;String, Object&gt;): String</text>
+      <text x="320.5" y="124.876" textLength="249.8145" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+generateTokenForSystem(systemName: String): String</text>
+      <text x="320.5" y="136.375" textLength="259.8389" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+setCustomExpiration(hours: Integer): JwtTokenGenerator</text>
+      <text x="320.5" y="147.874" textLength="293.7305" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+addCustomClaim(key: String, value: Object): JwtTokenGenerator</text>
+    </g>
+    <g id="elem_SecurityConfiguration">
+      <rect x="365.5" y="244" width="174.0264" height="239.4834" rx="2.5" ry="2.5" id="SecurityConfiguration" stroke-width="1" codeLine="29" style="fill:white;stroke:black;" />
+      <ellipse cx="401.1894" cy="258" rx="9" ry="9" stroke-width="1" style="fill:white;stroke:black;" />
+      <path d="M403.0019 258.875 L404.3925 259.3125 Q404.08 260.4844 403.33 261.0625 Q402.58 261.625 401.4238 261.625 Q400.0019 261.625 399.08 260.6563 Q398.1582 259.6719 398.1582 257.9844 Q398.1582 256.2031 399.08 255.2188 Q400.0019 254.2188 401.5175 254.2188 Q402.83 254.2188 403.6425 255 Q404.1425 255.4531 404.3769 256.3125 L402.955 256.6563 Q402.8144 256.0938 402.4082 255.7813 Q402.0175 255.4531 401.4394 255.4531 Q400.6425 255.4531 400.1425 256.0313 Q399.6582 256.5938 399.6582 257.875 Q399.6582 259.2344 400.1425 259.8125 Q400.6269 260.3906 401.4082 260.3906 Q401.9863 260.3906 402.3925 260.0313 Q402.8144 259.6563 403.0019 258.875 Z" style="fill:black;" />
+      <text x="418.2315" y="261.6304" textLength="95.6055" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">SecurityConfiguration</text>
+      <line x1="366.5" y1="272" x2="538.5264" y2="272" stroke-width="1" style="stroke:black;" />
+      <text x="371.5" y="285.3799" textLength="38.916" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-id: Long</text>
+      <text x="371.5" y="296.8789" textLength="60.0244" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-name: String</text>
+      <text x="371.5" y="308.3779" textLength="76.1328" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-jwtSecret: String</text>
+      <text x="371.5" y="319.877" textLength="74.4629" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-jwtIssuer: String</text>
+      <text x="371.5" y="331.376" textLength="88.9307" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-jwtAudience: String</text>
+      <text x="371.5" y="342.875" textLength="135.625" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-tokenExpirationHours: Integer</text>
+      <text x="371.5" y="354.374" textLength="126.1719" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-clockSkewSeconds: Integer</text>
+      <text x="371.5" y="365.873" textLength="80.0391" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-isActive: Boolean</text>
+      <line x1="366.5" y1="371.9922" x2="538.5264" y2="371.9922" stroke-width="1" style="stroke:black;" />
+      <text x="371.5" y="385.3721" textLength="62.5439" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getId(): Long</text>
+      <text x="371.5" y="396.8711" textLength="84.7559" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getName(): String</text>
+      <text x="371.5" y="408.3701" textLength="101.9824" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getJwtSecret(): String</text>
+      <text x="371.5" y="419.8691" textLength="152.5537" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+setJwtSecret(secret: String): void</text>
+      <text x="371.5" y="431.3682" textLength="100.3125" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getJwtIssuer(): String</text>
+      <text x="371.5" y="442.8672" textLength="114.7803" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getJwtAudience(): String</text>
+      <text x="371.5" y="454.3662" textLength="162.0264" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getTokenExpirationHours(): Integer</text>
+      <text x="371.5" y="465.8652" textLength="70.8643" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+activate(): void</text>
+      <text x="371.5" y="477.3643" textLength="81.9873" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+deactivate(): void</text>
+    </g>
+    <g id="elem_ValidationResult">
+      <rect x="12" y="284" width="168.9775" height="158.9902" rx="2.5" ry="2.5" id="ValidationResult" stroke-width="1" codeLine="49" style="fill:white;stroke:black;" />
+      <ellipse cx="56.606" cy="298" rx="9" ry="9" stroke-width="1" style="fill:white;stroke:black;" />
+      <path d="M58.4185 298.875 L59.8091 299.3125 Q59.4966 300.4844 58.7466 301.0625 Q57.9966 301.625 56.8403 301.625 Q55.4185 301.625 54.4966 300.6563 Q53.5747 299.6719 53.5747 297.9844 Q53.5747 296.2031 54.4966 295.2188 Q55.4185 294.2188 56.9341 294.2188 Q58.2466 294.2188 59.0591 295 Q59.5591 295.4531 59.7935 296.3125 L58.3716 296.6563 Q58.231 296.0938 57.8247 295.7813 Q57.4341 295.4531 56.856 295.4531 Q56.0591 295.4531 55.5591 296.0313 Q55.0747 296.5938 55.0747 297.875 Q55.0747 299.2344 55.5591 299.8125 Q56.0435 300.3906 56.8247 300.3906 Q57.4028 300.3906 57.8091 300.0313 Q58.231 299.6563 58.4185 298.875 Z" style="fill:black;" />
+      <text x="74.106" y="301.6304" textLength="72.2656" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">ValidationResult</text>
+      <line x1="13" y1="312" x2="179.9775" y2="312" stroke-width="1" style="stroke:black;" />
+      <text x="18" y="325.3799" textLength="66.1523" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-valid: Boolean</text>
+      <text x="18" y="336.8789" textLength="96.6992" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-errorMessage: String</text>
+      <text x="18" y="348.3779" textLength="67.7783" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-claims: Claims</text>
+      <text x="18" y="359.877" textLength="125.6152" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-validatedAt: LocalDateTime</text>
+      <line x1="13" y1="365.9961" x2="179.9775" y2="365.9961" stroke-width="1" style="stroke:black;" />
+      <text x="18" y="379.376" textLength="84.2139" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+isValid(): Boolean</text>
+      <text x="18" y="390.875" textLength="120.8789" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getErrorMessage(): String</text>
+      <text x="18" y="402.374" textLength="93.0713" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getClaims(): Claims</text>
+      <text x="18" y="413.873" textLength="150.3564" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getValidatedAt(): LocalDateTime</text>
+      <text x="18" y="425.3721" textLength="156.9775" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+markAsValid(claims: Claims): void</text>
+      <text x="18" y="436.8711" textLength="151.9922" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+markAsInvalid(error: String): void</text>
+    </g>
+    <g id="elem_Claims">
+      <rect x="56.5" y="556" width="236.2578" height="204.9863" rx="2.5" ry="2.5" id="Claims" stroke-width="1" codeLine="62" style="fill:white;stroke:black;" />
+      <ellipse cx="155.6006" cy="570" rx="9" ry="9" stroke-width="1" style="fill:white;stroke:black;" />
+      <path d="M157.4131 570.875 L158.8037 571.3125 Q158.4912 572.4844 157.7412 573.0625 Q156.9912 573.625 155.835 573.625 Q154.4131 573.625 153.4912 572.6563 Q152.5693 571.6719 152.5693 569.9844 Q152.5693 568.2031 153.4912 567.2188 Q154.4131 566.2188 155.9287 566.2188 Q157.2412 566.2188 158.0537 567 Q158.5537 567.4531 158.7881 568.3125 L157.3662 568.6563 Q157.2256 568.0938 156.8193 567.7813 Q156.4287 567.4531 155.8506 567.4531 Q155.0537 567.4531 154.5537 568.0313 Q154.0693 568.5938 154.0693 569.875 Q154.0693 571.2344 154.5537 571.8125 Q155.0381 572.3906 155.8193 572.3906 Q156.3975 572.3906 156.8037 572.0313 Q157.2256 571.6563 157.4131 570.875 Z" style="fill:black;" />
+      <text x="173.1006" y="573.6304" textLength="30.5566" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">Claims</text>
+      <line x1="57.5" y1="584" x2="291.7578" y2="584" stroke-width="1" style="stroke:black;" />
+      <text x="62.5" y="597.3799" textLength="66.6943" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-subject: String</text>
+      <text x="62.5" y="608.8789" textLength="61.6846" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-issuer: String</text>
+      <text x="62.5" y="620.3779" textLength="75.6006" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-audience: String</text>
+      <text x="62.5" y="631.877" textLength="141.7188" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-expirationTime: LocalDateTime</text>
+      <text x="62.5" y="643.376" textLength="114.4922" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-issuedAt: LocalDateTime</text>
+      <text x="62.5" y="654.875" textLength="163.3887" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">-customClaims: Map&lt;String, Object&gt;</text>
+      <line x1="57.5" y1="660.9941" x2="291.7578" y2="660.9941" stroke-width="1" style="stroke:black;" />
+      <text x="62.5" y="674.374" textLength="91.4355" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getSubject(): String</text>
+      <text x="62.5" y="685.873" textLength="85.3125" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getIssuer(): String</text>
+      <text x="62.5" y="697.3721" textLength="99.7803" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getAudience(): String</text>
+      <text x="62.5" y="708.8711" textLength="165.8984" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getExpirationTime(): LocalDateTime</text>
+      <text x="62.5" y="720.3701" textLength="138.1201" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getIssuedAt(): LocalDateTime</text>
+      <text x="62.5" y="731.8691" textLength="168.1104" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+getCustomClaim(key: String): Object</text>
+      <text x="62.5" y="743.3682" textLength="224.2578" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+addCustomClaim(key: String, value: Object): void</text>
+      <text x="62.5" y="754.8672" textLength="95.8838" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">+isExpired(): Boolean</text>
+    </g>
+    <g id="link_JwtTokenValidator_ValidationResult">
+      <path d="M147.48 171.32 C138.06 206.65 128.5154 242.4424 119.0954 277.7824" id="JwtTokenValidator-to-ValidationResult" stroke-width="1" codeLine="79" style="fill:none;stroke:black;" />
+      <polygon points="117.55,283.58 123.7331,275.9139 118.8378,278.7487 116.003,273.8534 117.55,283.58" stroke-width="1" style="fill:black;stroke:black;" />
+      <text x="140.5" y="211.3799" textLength="41.1377" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">produces</text>
+    </g>
+    <g id="link_JwtTokenValidator_Claims">
+      <path d="M187.27 171.07 C191.97 194.4 196.3 220.1 198.5 244 C208.26 349.77 205.75 377.03 198.5 483 C196.88 506.64 194.8318 526.0225 191.6618 549.8325" id="JwtTokenValidator-to-Claims" stroke-width="1" codeLine="80" style="fill:none;stroke:black;" />
+      <polygon points="190.87,555.78 196.0228,547.3866 191.5299,550.8237 188.0927,546.3308 190.87,555.78" stroke-width="1" style="fill:black;stroke:black;" />
+      <text x="206.5" y="367.3799" textLength="35.0098" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">extracts</text>
+    </g>
+    <g id="link_JwtTokenGenerator_SecurityConfiguration">
+      <path d="M468.73 153.77 C466.66 180.45 464.6142 206.698 462.2042 237.758" id="JwtTokenGenerator-to-SecurityConfiguration" stroke-width="1" codeLine="81" style="fill:none;stroke:black;" />
+      <polygon points="461.74,243.74 466.4242,235.0764 462.1268,238.755 458.4482,234.4575 461.74,243.74" stroke-width="1" style="fill:black;stroke:black;" />
+      <text x="465.5" y="211.3799" textLength="21.123" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">uses</text>
+    </g>
+    <g id="link_JwtTokenValidator_SecurityConfiguration">
+      <path d="M251.41 171.32 C287.1 205.25 324.5012 240.8163 360.6912 275.2163" id="JwtTokenValidator-to-SecurityConfiguration" stroke-width="1" codeLine="82" style="fill:none;stroke:black;" />
+      <polygon points="365.04,279.35 361.2726,270.2502 361.416,275.9052 355.7609,276.0486 365.04,279.35" stroke-width="1" style="fill:black;stroke:black;" />
+      <text x="293.5" y="211.3799" textLength="21.123" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">uses</text>
+    </g>
+    <g id="link_ValidationResult_Claims">
+      <path d="M117.4 443.02 C126.63 477.68 136.0571 513.0718 145.8971 550.0518" id="ValidationResult-to-Claims" stroke-width="1" codeLine="83" style="fill:none;stroke:black;" />
+      <polygon points="147.44,555.85 148.9912,546.1241 146.1543,551.0181 141.2602,548.1812 147.44,555.85" stroke-width="1" style="fill:black;stroke:black;" />
+      <text x="139.5" y="523.3799" textLength="37.2461" lengthAdjust="spacing" font-family="Arial" font-size="10" style="fill:black;">contains</text>
+    </g>
+  </g>
+  <title>new 5</title>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:puv="https://github.com/Fruchtzwerg94/PlantUmlViewer">
+      <puv:product>PlantUML Viewer by Philipp Schmidt</puv:product>
+      <puv:version>1.8.0.12</puv:version>
+      <puv:plantumlviewer>1.2024.8</puv:plantumlviewer>
+      <rdf:Description>
+        <dc:creator>MDEF\sreycal</dc:creator>
+        <dc:date>2025-06-26T10:36:36.2237218Z</dc:date>
+        <dc:source>new 5</dc:source>
+        <dc:title>new 5</dc:title>
+        <dc:format>image/svg</dc:format>
+        <puv:diagram>1</puv:diagram>
+        <puv:page>1</puv:page>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
+  <desc>@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Arial
+skinparam defaultFontSize 10
+
+class JwtTokenValidator {
+    -secretKey: String
+    -issuer: String
+    -audience: String
+    -clockSkewSeconds: Integer
+    +validateToken(token: String): ValidationResult
+    +extractClaims(token: String): Claims
+    +isTokenExpired(token: String): Boolean
+    +getTokenSubject(token: String): String
+    +validateIssuer(token: String): Boolean
+    +validateAudience(token: String): Boolean
+}
+
+class JwtTokenGenerator {
+    -secretKey: String
+    -issuer: String
+    -defaultExpirationHours: Integer
+    +generateToken(subject: String, claims: Map&lt;String, Object&gt;): String
+    +generateTokenForSystem(systemName: String): String
+    +setCustomExpiration(hours: Integer): JwtTokenGenerator
+    +addCustomClaim(key: String, value: Object): JwtTokenGenerator
+}
+
+class SecurityConfiguration {
+    -id: Long
+    -name: String
+    -jwtSecret: String
+    -jwtIssuer: String
+    -jwtAudience: String
+    -tokenExpirationHours: Integer
+    -clockSkewSeconds: Integer
+    -isActive: Boolean
+    +getId(): Long
+    +getName(): String
+    +getJwtSecret(): String
+    +setJwtSecret(secret: String): void
+    +getJwtIssuer(): String
+    +getJwtAudience(): String
+    +getTokenExpirationHours(): Integer
+    +activate(): void
+    +deactivate(): void
+}
+
+class ValidationResult {
+    -valid: Boolean
+    -errorMessage: String
+    -claims: Claims
+    -validatedAt: LocalDateTime
+    +isValid(): Boolean
+    +getErrorMessage(): String
+    +getClaims(): Claims
+    +getValidatedAt(): LocalDateTime
+    +markAsValid(claims: Claims): void
+    +markAsInvalid(error: String): void
+}
+
+class Claims {
+    -subject: String
+    -issuer: String
+    -audience: String
+    -expirationTime: LocalDateTime
+    -issuedAt: LocalDateTime
+    -customClaims: Map&lt;String, Object&gt;
+    +getSubject(): String
+    +getIssuer(): String
+    +getAudience(): String
+    +getExpirationTime(): LocalDateTime
+    +getIssuedAt(): LocalDateTime
+    +getCustomClaim(key: String): Object
+    +addCustomClaim(key: String, value: Object): void
+    +isExpired(): Boolean
+}
+
+JwtTokenValidator --&gt; ValidationResult : "produces"
+JwtTokenValidator --&gt; Claims : "extracts"
+JwtTokenGenerator --&gt; SecurityConfiguration : "uses"
+JwtTokenValidator --&gt; SecurityConfiguration : "uses"
+ValidationResult --&gt; Claims : "contains"
+
+@enduml</desc>
+</svg>

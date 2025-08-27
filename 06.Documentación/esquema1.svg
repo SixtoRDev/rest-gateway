@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace" width="1239px" height="616px" viewBox="0, 0, 1239, 616" preserveAspectRatio="none" contentStyleType="text/css" zoomAndPan="magnify" style="background-attachment:initial;background-clip:initial;background-color:#FFFFFF;background-image:initial;background-origin:initial;background-position:initial;background-repeat:initial;background-size:initial;">
+  <title>Flujo de Petición Entrante en CONECTA</title>
+  <defs />
+  <g>
+    <text x="382.709" y="37.1182" textLength="481.7871" lengthAdjust="spacing" font-family="Verdana" font-size="22" font-weight="bold" style="fill:black;">Flujo de Petición Entrante en CONECTA</text>
+    <rect x="402.9819" y="162.5513" width="10" height="354.1938" stroke-width="1" style="fill:white;stroke:#4A90E2;" />
+    <rect x="748.3662" y="397.3472" width="10" height="29.7993" stroke-width="1" style="fill:white;stroke:#4A90E2;" />
+    <rect x="915.8677" y="235.1499" width="10" height="30" stroke-width="1" style="fill:white;stroke:#4A90E2;" />
+    <rect x="915.8677" y="456.9458" width="10" height="30" stroke-width="1" style="fill:white;stroke:#4A90E2;" />
+    <rect x="1118.051" y="294.9492" width="10" height="29.7993" stroke-width="1" style="fill:white;stroke:#4A90E2;" />
+    <line x1="70" y1="130.752" x2="70" y2="534.7451" stroke-width="1" style="stroke:#4A90E2;" />
+    <line x1="407.5088" y1="130.752" x2="407.5088" y2="534.7451" stroke-width="1" style="stroke:#4A90E2;" />
+    <line x1="752.8945" y1="130.752" x2="752.8945" y2="534.7451" stroke-width="1" style="stroke:#4A90E2;" />
+    <line x1="920.8379" y1="130.752" x2="920.8379" y2="534.7451" stroke-width="1" style="stroke:#4A90E2;" />
+    <line x1="1122.897" y1="130.752" x2="1122.897" y2="534.7451" stroke-width="1" style="stroke:#4A90E2;" />
+    <text x="10" y="127.8125" textLength="114.8916" lengthAdjust="spacing" font-family="Verdana" font-size="14" style="fill:black;">Servicio Externo</text>
+    <ellipse cx="70.4458" cy="61.7373" rx="8" ry="8" stroke-width="1" style="fill:white;stroke:black;" />
+    <path d="M70.4458 69.7373 L70.4458 96.7373 M57.4458 77.7373 L83.4458 77.7373 M70.4458 96.7373 L57.4458 111.7373 M70.4458 96.7373 L83.4458 111.7373" stroke-width="1" style="fill:none;stroke:black;" />
+    <text x="10" y="547.8203" textLength="114.8916" lengthAdjust="spacing" font-family="Verdana" font-size="14" style="fill:black;">Servicio Externo</text>
+    <ellipse cx="70.4458" cy="559.7598" rx="8" ry="8" stroke-width="1" style="fill:white;stroke:black;" />
+    <path d="M70.4458 567.7598 L70.4458 594.7598 M57.4458 575.7598 L83.4458 575.7598 M70.4458 594.7598 L57.4458 609.7598 M70.4458 594.7598 L83.4458 609.7598" stroke-width="1" style="fill:none;stroke:black;" />
+    <rect x="329.5088" y="98.7373" width="156.9463" height="31.0146" rx="2.5" ry="2.5" stroke-width="1" style="fill:white;stroke:black;" />
+    <text x="336.5088" y="119.8125" textLength="142.9463" lengthAdjust="spacing" font-family="Verdana" font-size="14" style="fill:black;">CONECTA GATEWAY</text>
+    <rect x="329.5088" y="533.7451" width="156.9463" height="31.0146" rx="2.5" ry="2.5" stroke-width="1" style="fill:white;stroke:black;" />
+    <text x="336.5088" y="554.8203" textLength="142.9463" lengthAdjust="spacing" font-family="Verdana" font-size="14" style="fill:black;">CONECTA GATEWAY</text>
+    <rect x="682.8945" y="98.7373" width="140.9434" height="31.0146" rx="2.5" ry="2.5" stroke-width="1" style="fill:white;stroke:black;" />
+    <text x="689.8945" y="119.8125" textLength="126.9434" lengthAdjust="spacing" font-family="Verdana" font-size="14" style="fill:black;">Aplicación Interna</text>
+    <rect x="682.8945" y="533.7451" width="140.9434" height="31.0146" rx="2.5" ry="2.5" stroke-width="1" style="fill:white;stroke:black;" />
+    <text x="689.8945" y="554.8203" textLength="126.9434" lengthAdjust="spacing" font-family="Verdana" font-size="14" style="fill:black;">Aplicación Interna</text>
+    <text x="843.8379" y="127.8125" textLength="148.0596" lengthAdjust="spacing" font-family="Verdana" font-size="14" style="fill:black;">Registro de Auditoría</text>
+    <path d="M902.8677 77.7373 C902.8677 67.7373 920.8677 67.7373 920.8677 67.7373 C920.8677 67.7373 938.8677 67.7373 938.8677 77.7373 L938.8677 103.7373 C938.8677 113.7373 920.8677 113.7373 920.8677 113.7373 C920.8677 113.7373 902.8677 113.7373 902.8677 103.7373 L902.8677 77.7373" stroke-width="1.5" style="fill:white;stroke:black;" />
+    <path d="M902.8677 77.7373 C902.8677 87.7373 920.8677 87.7373 920.8677 87.7373 C920.8677 87.7373 938.8677 87.7373 938.8677 77.7373" stroke-width="1.5" style="fill:none;stroke:black;" />
+    <text x="843.8379" y="547.8203" textLength="148.0596" lengthAdjust="spacing" font-family="Verdana" font-size="14" style="fill:black;">Registro de Auditoría</text>
+    <path d="M902.8677 560.7598 C902.8677 550.7598 920.8677 550.7598 920.8677 550.7598 C920.8677 550.7598 938.8677 550.7598 938.8677 560.7598 L938.8677 586.7598 C938.8677 596.7598 920.8677 596.7598 920.8677 596.7598 C920.8677 596.7598 902.8677 596.7598 902.8677 586.7598 L902.8677 560.7598" stroke-width="1.5" style="fill:white;stroke:black;" />
+    <path d="M902.8677 560.7598 C902.8677 570.7598 920.8677 570.7598 920.8677 570.7598 C920.8677 570.7598 938.8677 570.7598 938.8677 560.7598" stroke-width="1.5" style="fill:none;stroke:black;" />
+    <text x="1007.898" y="127.8125" textLength="224.3076" lengthAdjust="spacing" font-family="Verdana" font-size="14" style="fill:black;">Base de Datos de Configuración</text>
+    <path d="M1105.051 77.7373 C1105.051 67.7373 1123.051 67.7373 1123.051 67.7373 C1123.051 67.7373 1141.051 67.7373 1141.051 77.7373 L1141.051 103.7373 C1141.051 113.7373 1123.051 113.7373 1123.051 113.7373 C1123.051 113.7373 1105.051 113.7373 1105.051 103.7373 L1105.051 77.7373" stroke-width="1.5" style="fill:white;stroke:black;" />
+    <path d="M1105.051 77.7373 C1105.051 87.7373 1123.051 87.7373 1123.051 87.7373 C1123.051 87.7373 1141.051 87.7373 1141.051 77.7373" stroke-width="1.5" style="fill:none;stroke:black;" />
+    <text x="1007.898" y="547.8203" textLength="224.3076" lengthAdjust="spacing" font-family="Verdana" font-size="14" style="fill:black;">Base de Datos de Configuración</text>
+    <path d="M1105.051 560.7598 C1105.051 550.7598 1123.051 550.7598 1123.051 550.7598 C1123.051 550.7598 1141.051 550.7598 1141.051 560.7598 L1141.051 586.7598 C1141.051 596.7598 1123.051 596.7598 1123.051 596.7598 C1123.051 596.7598 1105.051 596.7598 1105.051 586.7598 L1105.051 560.7598" stroke-width="1.5" style="fill:white;stroke:black;" />
+    <path d="M1105.051 560.7598 C1105.051 570.7598 1123.051 570.7598 1123.051 570.7598 C1123.051 570.7598 1141.051 570.7598 1141.051 560.7598" stroke-width="1.5" style="fill:none;stroke:black;" />
+    <rect x="402.9819" y="162.5513" width="10" height="354.1938" stroke-width="1" style="fill:white;stroke:#4A90E2;" />
+    <rect x="748.3662" y="397.3472" width="10" height="29.7993" stroke-width="1" style="fill:white;stroke:#4A90E2;" />
+    <rect x="915.8677" y="235.1499" width="10" height="30" stroke-width="1" style="fill:white;stroke:#4A90E2;" />
+    <rect x="915.8677" y="456.9458" width="10" height="30" stroke-width="1" style="fill:white;stroke:#4A90E2;" />
+    <rect x="1118.051" y="294.9492" width="10" height="29.7993" stroke-width="1" style="fill:white;stroke:#4A90E2;" />
+    <polygon points="390.9819,158.5513 400.9819,162.5513 390.9819,166.5513 394.9819,162.5513" stroke-width="1" style="fill:#34495E;stroke:#34495E;" />
+    <line x1="70.4458" y1="162.5513" x2="396.9819" y2="162.5513" stroke-width="1" style="stroke:#34495E;" />
+    <text x="77.4458" y="157.8218" textLength="313.5361" lengthAdjust="spacing" font-family="Verdana" font-size="13" style="fill:#34495E;">1. Petición HTTPS (con Token JWT en cabecera)</text>
+    <line x1="412.9819" y1="192.3506" x2="454.9819" y2="192.3506" stroke-width="1" style="stroke:#34495E;" />
+    <line x1="454.9819" y1="192.3506" x2="454.9819" y2="205.3506" stroke-width="1" style="stroke:#34495E;" />
+    <line x1="413.9819" y1="205.3506" x2="454.9819" y2="205.3506" stroke-width="1" style="stroke:#34495E;" />
+    <polygon points="423.9819,201.3506 413.9819,205.3506 423.9819,209.3506 419.9819,205.3506" stroke-width="1" style="fill:#34495E;stroke:#34495E;" />
+    <text x="419.9819" y="187.6211" textLength="291.0654" lengthAdjust="spacing" font-family="Verdana" font-size="13" style="fill:#34495E;">2. Validar firma, expiración y claims del JWT</text>
+    <polygon points="903.8677,231.1499 913.8677,235.1499 903.8677,239.1499 907.8677,235.1499" stroke-width="1" style="fill:#34495E;stroke:#34495E;" />
+    <line x1="412.9819" y1="235.1499" x2="909.8677" y2="235.1499" stroke-width="1" style="stroke:#34495E;" />
+    <text x="419.9819" y="230.4204" textLength="180.7114" lengthAdjust="spacing" font-family="Verdana" font-size="13" style="fill:#34495E;">3. Auditar Petición Entrante</text>
+    <polygon points="1106.051,290.9492 1116.051,294.9492 1106.051,298.9492 1110.051,294.9492" stroke-width="1" style="fill:#34495E;stroke:#34495E;" />
+    <line x1="412.9819" y1="294.9492" x2="1112.051" y2="294.9492" stroke-width="1" style="stroke:#34495E;" />
+    <text x="419.9819" y="290.2197" textLength="265.1353" lengthAdjust="spacing" font-family="Verdana" font-size="13" style="fill:#34495E;">4. Leer configuración de ruta y permisos</text>
+    <polygon points="423.9819,320.7485 413.9819,324.7485 423.9819,328.7485 419.9819,324.7485" stroke-width="1" style="fill:#34495E;stroke:#34495E;" />
+    <line x1="417.9819" y1="324.7485" x2="1122.051" y2="324.7485" stroke-width="1" stroke-dasharray="2 2" style="stroke:#34495E;" />
+    <text x="429.9819" y="320.019" textLength="233.6318" lengthAdjust="spacing" font-family="Verdana" font-size="13" style="fill:#34495E;">Devuelve la información del destino</text>
+    <line x1="412.9819" y1="354.5479" x2="454.9819" y2="354.5479" stroke-width="1" style="stroke:#34495E;" />
+    <line x1="454.9819" y1="354.5479" x2="454.9819" y2="367.5479" stroke-width="1" style="stroke:#34495E;" />
+    <line x1="413.9819" y1="367.5479" x2="454.9819" y2="367.5479" stroke-width="1" style="stroke:#34495E;" />
+    <polygon points="423.9819,363.5479 413.9819,367.5479 423.9819,371.5479 419.9819,367.5479" stroke-width="1" style="fill:#34495E;stroke:#34495E;" />
+    <text x="419.9819" y="349.8184" textLength="311.3843" lengthAdjust="spacing" font-family="Verdana" font-size="13" style="fill:#34495E;">5. (Opcional) Transformar datos si es necesario</text>
+    <polygon points="736.3662,393.3472 746.3662,397.3472 736.3662,401.3472 740.3662,397.3472" stroke-width="1" style="fill:#34495E;stroke:#34495E;" />
+    <line x1="412.9819" y1="397.3472" x2="742.3662" y2="397.3472" stroke-width="1" style="stroke:#34495E;" />
+    <text x="419.9819" y="392.6177" textLength="293.9917" lengthAdjust="spacing" font-family="Verdana" font-size="13" style="fill:#34495E;">6. Enviar petición saneada al servicio interno</text>
+    <polygon points="423.9819,423.1465 413.9819,427.1465 423.9819,431.1465 419.9819,427.1465" stroke-width="1" style="fill:#34495E;stroke:#34495E;" />
+    <line x1="417.9819" y1="427.1465" x2="752.3662" y2="427.1465" stroke-width="1" stroke-dasharray="2 2" style="stroke:#34495E;" />
+    <text x="429.9819" y="422.417" textLength="213.897" lengthAdjust="spacing" font-family="Verdana" font-size="13" style="fill:#34495E;">7. Respuesta del servicio interno</text>
+    <polygon points="903.8677,452.9458 913.8677,456.9458 903.8677,460.9458 907.8677,456.9458" stroke-width="1" style="fill:#34495E;stroke:#34495E;" />
+    <line x1="412.9819" y1="456.9458" x2="909.8677" y2="456.9458" stroke-width="1" style="stroke:#34495E;" />
+    <text x="419.9819" y="452.2163" textLength="193.959" lengthAdjust="spacing" font-family="Verdana" font-size="13" style="fill:#34495E;">8. Auditar Respuesta Saliente</text>
+    <polygon points="81.4458,512.7451 71.4458,516.7451 81.4458,520.7451 77.4458,516.7451" stroke-width="1" style="fill:#34495E;stroke:#34495E;" />
+    <line x1="75.4458" y1="516.7451" x2="406.9819" y2="516.7451" stroke-width="1" style="stroke:#34495E;" />
+    <text x="87.4458" y="512.0156" textLength="239.4399" lengthAdjust="spacing" font-family="Verdana" font-size="13" style="fill:#34495E;">9. Devolver respuesta final al cliente</text>
+  </g>
+  <title>new 10</title>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:puv="https://github.com/Fruchtzwerg94/PlantUmlViewer">
+      <puv:product>PlantUML Viewer by Philipp Schmidt</puv:product>
+      <puv:version>1.8.0.12</puv:version>
+      <puv:plantumlviewer>1.2024.8</puv:plantumlviewer>
+      <rdf:Description>
+        <dc:creator>MDEF\sreycal</dc:creator>
+        <dc:date>2025-06-12T15:52:48.9053774Z</dc:date>
+        <dc:source>new 10</dc:source>
+        <dc:title>new 10</dc:title>
+        <dc:format>image/svg</dc:format>
+        <puv:diagram>1</puv:diagram>
+        <puv:page>1</puv:page>
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
+  <desc>@startuml
+!theme plain
+
+' Define participants
+actor "Servicio Externo" as Client
+participant "CONECTA GATEWAY" as Gateway
+participant "Aplicación Interna" as App
+database "Registro de Auditoría" as AuditDB
+database "Base de Datos de Configuración" as ConfigDB
+
+' Style adjustments
+skinparam sequence {
+    ParticipantBorderColor #4A90E2
+    ParticipantBackgroundColor #DDEEFF
+    ParticipantFontColor #333
+    ActorBorderColor #4A90E2
+    LifeLineBorderColor #4A90E2
+    ArrowColor #34495E
+    ArrowFontColor #34495E
+}
+skinparam database {
+    BorderColor #9B59B6
+    BackgroundColor #E8DAEF
+    FontColor #333
+}
+skinparam actor {
+    BackgroundColor #DDEEFF
+    BorderColor #4A90E2
+}
+
+
+title Flujo de Petición Entrante en CONECTA
+
+' --- Flow Start ---
+
+Client -&gt; Gateway: 1. Petición HTTPS (con Token JWT en cabecera)
+activate Gateway
+
+Gateway -&gt; Gateway: 2. Validar firma, expiración y claims del JWT
+Gateway -&gt; AuditDB: 3. Auditar Petición Entrante
+activate AuditDB
+deactivate AuditDB
+
+Gateway -&gt; ConfigDB: 4. Leer configuración de ruta y permisos
+activate ConfigDB
+ConfigDB --&gt; Gateway: Devuelve la información del destino
+deactivate ConfigDB
+
+Gateway -&gt; Gateway: 5. (Opcional) Transformar datos si es necesario
+
+Gateway -&gt; App: 6. Enviar petición saneada al servicio interno
+activate App
+App --&gt; Gateway: 7. Respuesta del servicio interno
+deactivate App
+
+Gateway -&gt; AuditDB: 8. Auditar Respuesta Saliente
+activate AuditDB
+deactivate AuditDB
+
+Gateway -&gt; Client: 9. Devolver respuesta final al cliente
+deactivate Gateway
+
+@enduml</desc>
+</svg>

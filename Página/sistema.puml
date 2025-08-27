@@ -1,0 +1,57 @@
+@startuml
+!theme plain
+skinparam rectangle {
+    shadowing false
+    borderRadius 10
+}
+skinparam component {
+    borderColor #333
+    backgroundColor #f0f0f0
+    arrowColor #333
+}
+skinparam database {
+    borderColor #333
+    backgroundColor #lightgrey
+}
+skinparam actor {
+    borderColor #333
+}
+
+actor "Administrador" as Admin
+actor "Sistema Externo" as ExternalSystem
+actor "Servicio Interno" as InternalService
+
+package "Sistema CONECTA" {
+
+    frame "Backend" {
+        component "Gateway Core\n(Spring Cloud Gateway)" as GatewayCore
+        component "Config Service\n(Spring Boot)" as ConfigService
+        component "Audit Service\n(Spring Boot)" as AuditService
+    }
+
+    frame "Frontend" {
+        component "Admin UI (Angular)" as AdminUI
+    }
+}
+
+database "\n  Config DB  \n" as ConfigDB
+database "\n  Audit DB  \n " as AuditDB
+
+ExternalSystem -down-> GatewayCore : Petición Entrante (HTTPS)
+GatewayCore -up-> ExternalSystem : Respuesta
+InternalService -down-> GatewayCore : Petición Saliente (HTTP)
+GatewayCore -up-> InternalService : Respuesta
+
+GatewayCore -down-> ConfigService : Carga Configuración de Rutas\n(vía RouteDefinitionLocator)
+GatewayCore -down-> AuditService : Envía Trazas de Auditoría
+
+ConfigService -left-> ConfigDB : CRUD de Rutas
+AuditService -right-> AuditDB : Escritura de Trazas
+
+Admin -right-> AdminUI : Gestiona Configuración y\nConsulta Logs
+
+AdminUI -up-> ConfigService : Lee/Escribe Configuración de Rutas
+AdminUI -up-> AuditService : Consulta Logs de Auditoría
+
+@enduml
+ 

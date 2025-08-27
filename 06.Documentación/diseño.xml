@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<info>
+<title>SPEC-001</title>
+<subtitle>CONECTA - Gateway bidireccional de integración de servicios</subtitle>
+<date>2025-06-02</date>
+</info>
+<simpara>Quiero crear un diseño para un proyecto personal. Tengo una serie de servicios externos a los que me conecto para una serie de aplicaciones internas y quiero crear un punto de acceso único. La idea es desarrollar una aplicación que conecte de forma bidireccional los servicios externos con los internos, creando una puerta de entrada / salida única, dejando constancia de auditoría de lo enviado y recibido, pudiendo configurar múltiples orígenes externos con destinos internos y viceversa. el sistema se llamará CONECTA. Necesito el diseño de cómo sería la conexión desde los sistemas externos a las aplicaciones internas considerando que habrá una autenticación de los servicios con conecta basada en tokens JWT.</simpara>
+<simpara>Diseño badado en CHAT-GPT:</simpara>
+<section xml:id="_spec_001_conecta_gateway_bidireccional_de_integración_de_servicios">
+<title>SPEC-001: CONECTA - Gateway bidireccional de integración de servicios</title>
+<section xml:id="_presentación">
+<title>Presentación</title>
+<simpara>CONECTA surge como una necesidad de centralizar y estandarizar las conexiones entre múltiples servicios externos y aplicaciones internas de una organización. Actualmente, cada integración se realiza de manera individual, generando una complejidad creciente, dificultad para escalar, mantener y auditar.</simpara>
+<simpara>El objetivo del sistema es crear una puerta de entrada/salida única para estas integraciones, permitiendo:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Conexiones bidireccionales entre orígenes externos y destinos internos.</simpara>
+</listitem>
+<listitem>
+<simpara>Configuración dinámica de rutas de integración.</simpara>
+</listitem>
+<listitem>
+<simpara>Seguridad basada en tokens JWT.</simpara>
+</listitem>
+<listitem>
+<simpara>Auditoría de cada mensaje enviado o recibido por el sistema.</simpara>
+</listitem>
+<listitem>
+<simpara>Escalabilidad para múltiples orígenes/destinos simultáneos.</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_requisitos">
+<title>Requisitos</title>
+<section xml:id="_must_have">
+<title>Must Have</title>
+<itemizedlist>
+<listitem>
+<simpara>CONECTA debe permitir la integración bidireccional entre servicios externos e internos vía HTTP con mensajes JSON.</simpara>
+</listitem>
+<listitem>
+<simpara>Autenticación de servicios externos mediante tokens JWT firmados.</simpara>
+</listitem>
+<listitem>
+<simpara>Registro de auditoría para cada mensaje entrante y saliente (payload, timestamp, origen, destino, estado).</simpara>
+</listitem>
+<listitem>
+<simpara>Configuración dinámica de rutas entre orígenes y destinos.</simpara>
+</listitem>
+<listitem>
+<simpara>Alta disponibilidad y tolerancia a fallos.</simpara>
+</listitem>
+<listitem>
+<simpara>Validación de esquema (JSON Schema) de los mensajes.</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_should_have">
+<title>Should Have</title>
+<itemizedlist>
+<listitem>
+<simpara>UI administrativa para gestionar rutas, tokens y logs de auditoría.</simpara>
+</listitem>
+<listitem>
+<simpara>Envío de alertas ante errores de entrega o fallos de autenticación.</simpara>
+</listitem>
+<listitem>
+<simpara>Encriptación de los datos sensibles en tránsito y en reposo.</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_could_have">
+<title>Could Have</title>
+<itemizedlist>
+<listitem>
+<simpara>Compatibilidad futura con eventos asíncronos (Webhooks, Kafka).</simpara>
+</listitem>
+<listitem>
+<simpara>Simulación/prueba de rutas antes de activarlas.</simpara>
+</listitem>
+<listitem>
+<simpara>Estadísticas de uso y performance de cada integración.</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_wont_have_por_ahora">
+<title>Won’t Have (por ahora)</title>
+<itemizedlist>
+<listitem>
+<simpara>Soporte para protocolos distintos a HTTP.</simpara>
+</listitem>
+<listitem>
+<simpara>Motor de transformación compleja de mensajes (ETL avanzada).</simpara>
+</listitem>
+</itemizedlist>
+</section>
+</section>
+<section xml:id="_metodología">
+<title>Metodología</title>
+<section xml:id="_arquitectura_general">
+<title>Arquitectura General</title>
+<simpara>CONECTA se compone de los siguientes bloques principales:</simpara>
+<itemizedlist>
+<listitem>
+<simpara><emphasis role="strong">API Gateway</emphasis>: Punto de entrada para todos los servicios externos. Maneja autenticación JWT y delega las solicitudes.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Routing Engine</emphasis>: Motor interno que decide el destino de cada mensaje en función de la configuración.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Internal Connectors</emphasis>: Módulos encargados de conectar con las aplicaciones internas.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Audit Logger</emphasis>: Servicio que registra todos los intercambios (request/response) en una base de datos de auditoría.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Admin UI</emphasis>: Interfaz para configurar rutas, gestionar tokens y revisar logs.</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Config Store</emphasis>: Base de datos donde se almacenan definiciones de rutas, tokens válidos, esquemas, etc.</simpara>
+</listitem>
+</itemizedlist>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/diag-plantuml-md5-7746755f5db1c0049c15bca32aa9b3d7.png"/>
+</imageobject>
+<textobject><phrase>Diagram</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</section>
+<section xml:id="_autenticación_jwt">
+<title>Autenticación JWT</title>
+<itemizedlist>
+<listitem>
+<simpara>Cada sistema externo se identifica mediante un token JWT firmado previamente con una clave compartida (HS256).</simpara>
+</listitem>
+<listitem>
+<simpara>El API Gateway de CONECTA valida el JWT en cada solicitud entrante, revisando:</simpara>
+</listitem>
+<listitem>
+<simpara>Firma (clave secreta válida)</simpara>
+</listitem>
+<listitem>
+<simpara>Fecha de expiración (<literal>exp</literal>)</simpara>
+</listitem>
+<listitem>
+<simpara>ID del emisor (<literal>iss</literal>) o sujeto (<literal>sub</literal>)</simpara>
+</listitem>
+<listitem>
+<simpara>El JWT no contiene permisos, solo identidad del sistema.</simpara>
+</listitem>
+</itemizedlist>
+<section xml:id="_flujo_de_autenticación">
+<title>Flujo de Autenticación</title>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/diag-plantuml-md5-18fed7381b0ef5403782f5f900f0410b.png"/>
+</imageobject>
+<textobject><phrase>Diagram</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</section>
+</section>
+<section xml:id="_modelo_de_dominio_uml">
+<title>Modelo de Dominio (UML)</title>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/diag-plantuml-md5-caa635b736f3b47741fa385fdd46a352.png"/>
+</imageobject>
+<textobject><phrase>Diagram</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</section>
+<section xml:id="_roles_definidos">
+<title>Roles definidos</title>
+<itemizedlist>
+<listitem>
+<simpara>CONSULTA_LOGS: Puede visualizar registros de auditoría.</simpara>
+</listitem>
+<listitem>
+<simpara>CONFIG_READ: Puede ver rutas y sistemas.</simpara>
+</listitem>
+<listitem>
+<simpara>CONFIG_CREATE: Puede crear nuevas rutas o sistemas.</simpara>
+</listitem>
+<listitem>
+<simpara>CONFIG_WRITE: Puede modificar rutas o sistemas existentes.</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_seguridad_y_control_de_acceso">
+<title>Seguridad y Control de Acceso</title>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/diag-plantuml-md5-4ae38324741a8127c3690f3954b6c986.png"/>
+</imageobject>
+<textobject><phrase>Diagram</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</section>
+<section xml:id="_gestión_de_roles_vía_ui">
+<title>Gestión de Roles vía UI</title>
+<itemizedlist>
+<listitem>
+<simpara>Los usuarios con permiso <literal>CONFIG_CREATE</literal> podrán:</simpara>
+</listitem>
+<listitem>
+<simpara>Crear nuevos usuarios.</simpara>
+</listitem>
+<listitem>
+<simpara>Asignar roles iniciales.</simpara>
+</listitem>
+<listitem>
+<simpara>Los usuarios con permiso <literal>CONFIG_WRITE</literal> podrán:</simpara>
+</listitem>
+<listitem>
+<simpara>Modificar roles de usuarios existentes.</simpara>
+</listitem>
+<listitem>
+<simpara>Desactivar usuarios.</simpara>
+</listitem>
+</itemizedlist>
+<simpara>La UI administrativa incluirá:
+- Pantalla de listado de usuarios.
+- Formulario de creación de usuario con asignación de roles.
+- Edición de roles y estado activo.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/diag-plantuml-md5-c1da3c8c4f157b2e2d014a4f990f63e6.png"/>
+</imageobject>
+<textobject><phrase>Diagram</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</section>
+<section xml:id="_flujo_de_mensajes_entrantes_externo_interno">
+<title>Flujo de Mensajes Entrantes (Externo → Interno)</title>
+<section xml:id="_mensaje_entrante">
+<title>Mensaje entrante</title>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/diag-plantuml-md5-c54af2dc0cf2b18b318261190fd3c208.png"/>
+</imageobject>
+<textobject><phrase>Diagram</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</section>
+<section xml:id="_mensaje_saliente">
+<title>Mensaje saliente</title>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/diag-plantuml-md5-0203e2fe3eae0d1d4348635e233e2888.png"/>
+</imageobject>
+<textobject><phrase>Diagram</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</section>
+</section>
+</section>
+<section xml:id="_implementacion">
+<title>Implementacion</title>
+<section xml:id="_backend_spring_boot">
+<title>Backend (Spring Boot)</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Crear un proyecto Spring Boot con los siguientes módulos:</simpara>
+<itemizedlist>
+<listitem>
+<simpara><literal>conecta-api</literal>: Exposición de endpoints para sistemas externos e internos.</simpara>
+</listitem>
+<listitem>
+<simpara><literal>conecta-core</literal>: Lógica de ruteo, validación, auditoría.</simpara>
+</listitem>
+<listitem>
+<simpara><literal>conecta-auth</literal>: Validación de tokens JWT y roles de usuarios.</simpara>
+</listitem>
+<listitem>
+<simpara><literal>conecta-admin</literal>: API REST para gestionar sistemas, rutas y usuarios.</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Configurar Oracle como base de datos principal usando Spring Data JPA.</simpara>
+</listitem>
+<listitem>
+<simpara>Implementar validación JWT usando HS256 con claves por sistema externo.</simpara>
+</listitem>
+<listitem>
+<simpara>Implementar timeout global de 10s para todas las llamadas HTTP salientes.</simpara>
+</listitem>
+<listitem>
+<simpara>Auditar todas las operaciones en las tablas <literal>EXTERNAL_LOG</literal> e <literal>INTERNAL_LOG</literal>.</simpara>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_frontend_angular">
+<title>Frontend (Angular)</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Crear un proyecto Angular separado llamado <literal>conecta-admin-ui</literal>.</simpara>
+</listitem>
+<listitem>
+<simpara>Funcionalidades de la UI:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Gestión de sistemas internos y externos.</simpara>
+</listitem>
+<listitem>
+<simpara>Gestión de rutas entrantes (<literal>routes_external</literal>) y salientes (<literal>routes_internal</literal>).</simpara>
+</listitem>
+<listitem>
+<simpara>Visualización de logs con filtros por fecha, estado, sistema.</simpara>
+</listitem>
+<listitem>
+<simpara>Gestión de usuarios y asignación de roles (<literal>CONSULTA_LOGS</literal>, <literal>CONFIG_*</literal>).</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Login con usuario y contraseña con JWT recibido desde backend.</simpara>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_seguridad">
+<title>Seguridad</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Backend:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Login de usuarios administrativos usando contraseña con hash (BCrypt).</simpara>
+</listitem>
+<listitem>
+<simpara>Generación de token JWT para sesiones de UI.</simpara>
+</listitem>
+<listitem>
+<simpara>Verificación de roles por endpoint en base a <literal>UserRole</literal>.</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Frontend:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Guardas de ruta según rol.</simpara>
+</listitem>
+<listitem>
+<simpara>Almacenamiento seguro del JWT en memoria (no en localStorage).</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_configuración_y_despliegue">
+<title>Configuración y despliegue</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Propiedades de configuración externa en <literal>application.yml</literal>:</simpara>
+<itemizedlist>
+<listitem>
+<simpara><literal>jwt.secret=&lt;clave por defecto&gt;</literal> para usuarios internos.</simpara>
+</listitem>
+<listitem>
+<simpara><literal>timeout.http=10000</literal> (10s).</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Deploy en servidor con contenedor (Tomcat o Spring Boot embebido).</simpara>
+</listitem>
+<listitem>
+<simpara>Servir UI como app Angular estática o vía nginx aparte.</simpara>
+</listitem>
+</orderedlist>
+</section>
+</section>
+<section xml:id="_milestones">
+<title>Milestones</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Diseño técnico detallado finalizado</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Confirmación de modelo de dominio</simpara>
+</listitem>
+<listitem>
+<simpara>Diagrama de arquitectura validado</simpara>
+</listitem>
+<listitem>
+<simpara>Esquemas base de Oracle definidos</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Configuración inicial del entorno</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Repositorio con estructura de proyecto Spring Boot y Angular</simpara>
+</listitem>
+<listitem>
+<simpara>Entorno de base de datos Oracle accesible</simpara>
+</listitem>
+<listitem>
+<simpara>CI básico para backend y frontend</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Desarrollo MVP</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Validación JWT en gateway</simpara>
+</listitem>
+<listitem>
+<simpara>Ruteo básico entrante/saliente sin UI</simpara>
+</listitem>
+<listitem>
+<simpara>Registro de logs en Oracle</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>UI Administrativa</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Login y gestión de usuarios/roles</simpara>
+</listitem>
+<listitem>
+<simpara>Gestión de sistemas y rutas</simpara>
+</listitem>
+<listitem>
+<simpara>Visualización de logs</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Pruebas y verificación funcional</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Test de integraciones entrantes y salientes</simpara>
+</listitem>
+<listitem>
+<simpara>Pruebas con sistemas reales o simulados</simpara>
+</listitem>
+<listitem>
+<simpara>Validación de timeout y errores</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Despliegue en entorno de producción</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Configuración de variables sensibles y claves</simpara>
+</listitem>
+<listitem>
+<simpara>Seguridad de acceso a UI</simpara>
+</listitem>
+<listitem>
+<simpara>Backup inicial y monitoreo básico</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</section>
+</section>
+</article>

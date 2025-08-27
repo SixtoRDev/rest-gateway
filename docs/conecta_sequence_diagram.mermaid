@@ -1,0 +1,122 @@
+sequenceDiagram
+    participant EXT as Sistema Externo
+    participant DPW as IBM DataPower
+    participant GATE as CONECTA Gateway
+    participant ROUTE as RouterEngine
+    participant SEC as SecurityManager
+    participant AUDIT as AuditService
+    participant TRANS as TransactionManager
+    participant SVC as Servicio Interno
+    
+    EXT->>DPW: Envía solicitud con JWT
+    DPW->>GATE: Reenvía solicitud
+    
+    GATE->>TRANS: beginTransaction(correlationId)
+    TRANS-->>GATE: transaction
+    
+    GATE->>AUDIT: logTransactionStart(transaction)
+    
+    GATE->>SEC: validateToken(token, audience)
+    SEC-->>GATE: tokenValido(boolean)
+    
+    alt token válido
+        GATE->>ROUTE: routeRequest(request)
+        ROUTE-->>GATE: endpoint
+        
+        GATE->>SVC: forwardRequest(request, endpoint)
+        SVC-->>GATE: response
+        
+        GATE->>AUDIT: logTransaction(transaction, request, response)
+        GATE->>TRANS: commitTransaction(transaction)
+        GATE-->>DPW: response
+        DPW-->>EXT: response
+    else token inválido
+        GATE->>AUDIT: logFailedAuth(transaction)
+        GATE->>TRANS: rollbackTransaction(transaction)
+        GATE-->>DPW: errorResponse(401)
+        DPW-->>EXT: errorResponse(401)
+    end
+
+sequenceDiagram
+    participant SVC as Servicio Interno
+    participant GATE as CONECTA Gateway
+    participant ROUTE as RouterEngine
+    participant SEC as SecurityManager
+    participant AUDIT as AuditService
+    participant TRANS as TransactionManager
+    participant DPW as IBM DataPower
+    participant EXT as Sistema Externo
+    
+    SVC->>GATE: Envía solicitud
+    
+    GATE->>TRANS: beginTransaction(correlationId)
+    TRANS-->>GATE: transaction
+    
+    GATE->>AUDIT: logTransactionStart(transaction)
+    
+    GATE->>ROUTE: routeRequest(request)
+    ROUTE-->>GATE: endpoint
+    
+    GATE->>SEC: generateToken(claims, audience)
+    SEC-->>GATE: token
+    
+    GATE->>GATE: addTokenToRequest(request, token)
+    
+    GATE->>DPW: forwardRequest(request)
+    DPW->>EXT: forwardRequest(request)
+    
+    EXT-->>DPW: response
+    DPW-->>GATE: response
+    
+    GATE->>AUDIT: logTransaction(transaction, request, response)
+    GATE->>TRANS: commitTransaction(transaction)
+    
+    GATE-->>SVC: response
+
+sequenceDiagram
+    participant ADMIN as Usuario Administrador
+    participant UI as Admin UI
+    participant API as AdminController
+    participant CONFIG as ConfigurationService
+    participant REPO as ConfigRepository
+    participant EVENT as EventPublisher
+    participant COMP as Componentes Sistema
+    
+    ADMIN->>UI: Actualizar configuración
+    UI->>API: updateConfig(config)
+    
+    API->>CONFIG: saveConfiguration(config)
+    CONFIG->>REPO: save(config)
+    REPO-->>CONFIG: success
+    
+    CONFIG->>EVENT: publishConfigChanged(config)
+    EVENT->>COMP: notifyConfigChanged(config)
+    
+    COMP->>COMP: applyNewConfiguration()
+    
+    CONFIG-->>API: success
+    API-->>UI: success
+    UI-->>ADMIN: Confirmación
+
+sequenceDiagram
+    participant ADMIN as Usuario Administrador
+    participant UI as Admin UI
+    participant API as AdminController
+    participant AUDIT as AuditService
+    participant REPO as AuditRepository
+    participant SEARCH as SearchEngine
+    
+    ADMIN->>UI: Buscar logs de auditoría
+    UI->>API: searchAuditLogs(criteria)
+    
+    API->>AUDIT: findTransactions(criteria)
+    AUDIT->>SEARCH: search(criteria)
+    
+    SEARCH->>REPO: executeQuery(queryParams)
+    REPO-->>SEARCH: rawResults
+    
+    SEARCH-->>AUDIT: searchResults
+    AUDIT-->>API: auditRecords
+    
+    API-->>UI: formattedAuditRecords
+    UI-->>ADMIN: Display results

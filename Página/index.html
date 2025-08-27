@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONECTA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Finlandica:ital,wght@0,400..700;1,400..700&family=Genos:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+
+    <!-- Chosen Palette: Slate & Amber -->
+    <!-- Application Structure Plan: The SPA is designed as an interactive dashboard with a fixed top navigation bar for easy access to all key sections. The structure avoids a linear document format, opting for a more engaging, task-oriented exploration. The core sections are: 1. Overview: High-level introduction with key benefits. 2. Interactive Architecture: A clickable diagram of the system modules, allowing users to explore each component's role. This is the centerpiece, transforming the static PlantUML diagram into an interactive experience. 3. Prioritized Requirements: A combination of a Chart.js doughnut chart for a visual summary and interactive filters to explore the MoSCoW-categorized requirements in detail. 4. Key Data Flows: Step-by-step visualizations of the main sequence diagrams, making complex interactions easy to follow. 5. Domain Model: Interactive cards representing the main data entities. This structure was chosen to guide the user from a high-level concept to a detailed understanding in a non-linear, self-directed way, which is more effective for digesting complex technical information than a static report. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: System Modules & Relationships -> Goal: Organize/Relationships -> Viz/Method: Interactive HTML/CSS diagram with clickable cards -> Interaction: Click on a module to see its details and responsibilities -> Justification: More engaging and informative than a static image. Allows for progressive disclosure of information. -> Library/Method: Vanilla JS, Tailwind CSS.
+        - Report Info: MoSCoW Requirements Table -> Goal: Compare/Inform -> Viz/Method: Chart.js Doughnut Chart & Filterable list of cards -> Interaction: Chart provides a quick overview. Buttons filter the list of requirements by category (Must, Should, etc.) -> Justification: Transforms a dense table into an easily scannable and filterable interface. -> Library/Method: Chart.js, Vanilla JS.
+        - Report Info: Sequence Diagrams (Data Flows) -> Goal: Change/Process -> Viz/Method: Step-by-step guided flow using styled HTML list items -> Interaction: JS highlights the active step and associated components in a simplified diagram, guiding the user through the process. -> Justification: Simplifies complex sequences into a digestible, linear story. -> Library/Method: Vanilla JS.
+        - Report Info: Class Diagram -> Goal: Organize -> Viz/Method: Interactive cards for each domain object -> Interaction: Clicking a card expands to show details (attributes, methods). -> Justification: Cleaner presentation than a static diagram, focuses on one entity at a time. -> Library/Method: Vanilla JS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Finlandica','Audiowide','Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .nav-link {
+            transition: color 0.2s, border-bottom-color 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #b45309; /* amber-700 */
+            border-bottom-color: #b45309; /* amber-700 */
+        }
+        .filter-btn.active {
+            background-color: #f59e0b; /* amber-500 */
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .filter-btn {
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .section-fade-in {
+            opacity: 0;
+            animation: fadeIn 0.8s forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .flow-step-highlight {
+            background-color: #fef3c7; /* amber-100 */
+            border-left-color: #f59e0b; /* amber-500 */
+        }
+        .arch-component-highlight {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.7);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-slate-800">
+                    <span class="text-amber-600">CONECTA</span> 
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#overview" class="nav-link text-slate-600 font-medium pb-1">Visión General</a>
+                    <a href="#architecture" class="nav-link text-slate-600 font-medium pb-1">Arquitectura</a>
+                    <a href="#requirements" class="nav-link text-slate-600 font-medium pb-1">Requisitos</a>
+                    <a href="#flows" class="nav-link text-slate-600 font-medium pb-1">Flujos de Datos</a>
+                    <a href="#domain" class="nav-link text-slate-600 font-medium pb-1">Modelo de Dominio</a>
+                </div>
+                <div class="md:hidden">
+                    <select id="mobile-nav" class="bg-white border border-slate-300 rounded-md py-2 px-3 text-slate-700">
+                        <option value="#overview">Visión General</option>
+                        <option value="#architecture">Arquitectura</option>
+                        <option value="#requirements">Requisitos</option>
+                        <option value="#flows">Flujos de Datos</option>
+                        <option value="#domain">Modelo de Dominio</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="overview" class="mb-16 scroll-mt-20 section-fade-in">
+            <h1 class="text-4xl font-bold text-center mb-4 text-slate-800">API Gateway Empresarial</h1>
+            <p class="text-lg text-slate-600 text-center max-w-3xl mx-auto mb-12">CONECTA es un API Gateway centralizado, diseñado para ser el único punto de entrada y salida para todo el tráfico de APIs de la organización. Actúa como una capa estratégica de gestión que introduce gobernanza, seguridad, control y observabilidad sobre los flujos de comunicación.</p>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-amber-100 text-amber-600 p-3 rounded-full mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-slate-800">Agilidad Operativa</h3>
+                    </div>
+                    <p class="text-slate-600">Reduce la dependencia de desarrollos específicos para conexiones con otros sistemas, acelerando el intercambio de información.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                     <div class="flex items-center mb-3">
+                        <div class="bg-amber-100 text-amber-600 p-3 rounded-full mr-4">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197M15 21a6 6 0 006-5.197M15 15a4 4 0 00-4-4h-4a4 4 0 00-4 4v.292" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-slate-800">Mejora en el desarrollo</h3>
+                    </div>
+                    <p class="text-slate-600">Otorga autonomía a los equipos de desarrollo para exponer y consumir APIs de forma rápida y segura a través de una UI de administración.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-slate-200">
+                     <div class="flex items-center mb-3">
+                        <div class="bg-amber-100 text-amber-600 p-3 rounded-full mr-4">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-slate-800">Centralización y Consistencia</h3>
+                    </div>
+                    <p class="text-slate-600">Asegura que todas las políticas de seguridad, auditoría y enrutamiento se apliquen de manera uniforme desde un único punto de control.</p>
+                </div>
+            </div>
+        </section>
+		
+		<hr/><br/>
+        
+        <section id="architecture" class="mb-16 scroll-mt-20 section-fade-in">
+            <h2 class="text-3xl font-bold text-center mb-4">Arquitectura Interactiva del Sistema</h2>
+            <p class="text-lg text-slate-600 text-center max-w-3xl mx-auto mb-12">El sistema CONECTA se descompone en módulos lógicos que siguen los principios de una Arquitectura de Microservicios. Haz clic en cada componente para explorar sus responsabilidades.</p>
+            
+            <div id="architecture-diagram" class="relative bg-white p-8 rounded-xl shadow-xl border border-slate-200">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
+                    <!-- Actors -->
+                    <div class="flex flex-col items-center justify-center space-y-4 col-span-2">
+<!--
+                        <div class="text-center">
+                            <div class="font-bold text-lg">👤 Administrador</div>
+                        </div>
+                         <div class="text-center">
+                            <div class="font-bold text-lg">🌐 Sistema Externo</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-bold text-lg">⚙️ Servicio Interno</div>
+                        </div>
+						-->
+						<img src="sistema.png"/>
+                    </div>
+
+                    <!-- System Modules -->
+                    <div class="col-span-2">
+                        <div class="border-2 border-dashed border-slate-300 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-center mb-6 text-slate-700">Sistema CONECTA</h3>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div class="arch-component bg-slate-100 p-4 rounded-lg shadow-md cursor-pointer transition-transform duration-300" data-component="ui">
+                                    <h4 class="font-bold text-center">Admin UI (Angular)</h4>
+                                </div>
+                                <div class="arch-component bg-slate-100 p-4 rounded-lg shadow-md cursor-pointer transition-transform duration-300" data-component="core">
+                                    <h4 class="font-bold text-center">Gateway Core (Spring)</h4>
+                                </div>
+                                <div class="arch-component bg-slate-100 p-4 rounded-lg shadow-md cursor-pointer transition-transform duration-300" data-component="config">
+                                    <h4 class="font-bold text-center">Config Service</h4>
+                                </div>
+                                <div class="arch-component bg-slate-100 p-4 rounded-lg shadow-md cursor-pointer transition-transform duration-300" data-component="audit">
+                                    <h4 class="font-bold text-center">Audit Service</h4>
+                                </div>
+                            </div>
+                        </div>
+						 <!-- Details Pane -->
+						<div id="architecture-details" class="mt-8 bg-amber-50 p-6 rounded-lg border border-amber-200 min-h-[120px]">
+							<p class="text-slate-600 text-center">Selecciona un componente para ver su descripción.</p>
+						</div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+		<hr/><br/>
+        
+        <section id="requirements" class="mb-16 scroll-mt-20 section-fade-in">
+            <h2 class="text-3xl font-bold text-center mb-4">Requisitos Priorizados (MoSCoW)</h2>
+            <p class="text-lg text-slate-600 text-center max-w-3xl mx-auto mb-12">Los requisitos se clasifican usando la metodología MoSCoW para definir un alcance claro. Interactúa con el gráfico y los filtros para explorar cada categoría.</p>
+
+            <div class="flex flex-col lg:flex-row gap-8 items-center">
+                <div class="w-full lg:w-1/3">
+                    <div class="chart-container">
+                        <canvas id="moscowChart"></canvas>
+                    </div>
+                </div>
+                <div class="w-full lg:w-2/3">
+                    <div class="mb-6 flex flex-wrap gap-2 justify-center">
+                        <button class="filter-btn active py-2 px-4 bg-slate-200 text-slate-700 rounded-full" data-filter="all">Todos</button>
+                        <button class="filter-btn py-2 px-4 bg-slate-200 text-slate-700 rounded-full" data-filter="must">Must-have</button>
+                        <button class="filter-btn py-2 px-4 bg-slate-200 text-slate-700 rounded-full" data-filter="should">Should-have</button>
+                        <button class="filter-btn py-2 px-4 bg-slate-200 text-slate-700 rounded-full" data-filter="could">Could-have</button>
+                        <button class="filter-btn py-2 px-4 bg-slate-200 text-slate-700 rounded-full" data-filter="wont">Won't-have</button>
+                    </div>
+                    <div id="requirements-list" class="space-y-3 max-h-[400px] overflow-y-auto pr-2">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+		<hr/><br/>
+        
+        <section id="flows" class="mb-16 scroll-mt-20 section-fade-in">
+            <h2 class="text-3xl font-bold text-center mb-4">Flujos de Datos Clave</h2>
+            <p class="text-lg text-slate-600 text-center max-w-3xl mx-auto mb-12">Visualiza los flujos de interacción más críticos del sistema paso a paso. Utiliza los botones para cambiar entre los diferentes flujos.</p>
+            
+            <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-8">
+                <div class="flex justify-center mb-6 border-b border-slate-200">
+                    <button id="flow-btn-1" class="flow-selector-btn nav-link active px-6 py-2 font-semibold">Petición Entrante</button>
+                    <button id="flow-btn-2" class="flow-selector-btn nav-link px-6 py-2 font-semibold">Actualización de Ruta</button>
+                </div>
+                
+                <div id="flow-content-1" class="flow-content">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Flujo de Procesamiento de Petición Entrante Válida</h3>
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <ol id="flow-1-steps" class="list-decimal list-inside space-y-2 md:w-1/2">
+                            <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="1" data-highlights='["ext","core"]'>Petición HTTPS llega al Gateway Core.</li>
+                            <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="2" data-highlights='["core","audit"]'>Filtro de Auditoría intercepta y envuelve la petición.</li>
+                            <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="3" data-highlights='["core"]'>Filtro de Autenticación valida el token JWT.</li>
+                            <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="4" data-highlights='["core","int"]'>Motor de Enrutamiento reenvía petición al servicio interno.</li>
+                            <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="5" data-highlights='["int","core"]'>Servicio Interno devuelve la respuesta.</li>
+                            <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="6" data-highlights='["core","audit"]'>Filtro de Auditoría intercepta respuesta, ensambla la traza y la envía.</li>
+                            <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="7" data-highlights='["core","ext"]'>Gateway Core devuelve la respuesta final al cliente.</li>
+                        </ol>
+                        <div class="md:w-2/3 flex items-center justify-center p-4 bg-slate-50 rounded-lg">
+<!--
+                            <div class="grid grid-cols-3 gap-2 text-center text-xs font-semibold">
+                                <div id="flow-1-ext" class="flow-component bg-slate-200 p-4 rounded transition-all duration-300">Sistema Externo</div>
+                                <div id="flow-1-core" class="flow-component bg-slate-200 p-4 rounded transition-all duration-300">Gateway Core</div>
+                                <div id="flow-1-int" class="flow-component bg-slate-200 p-4 rounded transition-all duration-300">Servicio Interno</div>
+                                <div class="col-start-2">
+                                <div id="flow-1-audit" class="flow-component bg-slate-200 p-4 rounded transition-all duration-300 mt-2">Audit Service</div>
+                                </div>
+                            </div>
+-->
+						<img src="peticion.png"/>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="flow-content-2" class="flow-content hidden">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Flujo de Actualización de Ruta</h3>
+                     <div class="flex flex-col md:flex-row gap-8">
+                        <ol id="flow-2-steps" class="list-decimal list-inside space-y-2 md:w-1/2">
+                           <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="1" data-highlights='["admin","ui","config"]'>Admin guarda cambios de ruta en la Admin UI, que llama al Config Service.</li>
+                           <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="2" data-highlights='["config","db"]'>Config Service actualiza la base de datos de configuración.</li>
+                           <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="3" data-highlights='["config","broker"]'>Config Service publica un evento `ConfigChangedEvent` en un Message Broker.</li>
+                           <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="4" data-highlights='["broker","core"]'>Instancias del Gateway Core reciben el evento.</li>
+                           <li class="p-3 rounded-md cursor-pointer transition-all duration-300 border-l-4 border-transparent" data-step="5" data-highlights='["core","config"]'>Gateway Core dispara un refresco interno, recargando las rutas desde el Config Service (y su DB) sin reinicio.</li>
+                        </ol>
+                        <div class="md:w-1/2 flex items-center justify-center p-4 bg-slate-50 rounded-lg">
+                            <div class="grid grid-cols-2 gap-2 text-center text-xs font-semibold w-full">
+                                <div id="flow-2-admin" class="flow-component bg-slate-200 p-3 rounded transition-all duration-300">Admin</div>
+                                <div id="flow-2-ui" class="flow-component bg-slate-200 p-3 rounded transition-all duration-300">Admin UI</div>
+                                <div id="flow-2-config" class="flow-component bg-slate-200 p-3 rounded transition-all duration-300">Config Service</div>
+                                <div id="flow-2-db" class="flow-component bg-slate-200 p-3 rounded transition-all duration-300">Config DB</div>
+                                <div id="flow-2-broker" class="flow-component bg-slate-200 p-3 rounded transition-all duration-300">Message Broker</div>
+                                <div id="flow-2-core" class="flow-component bg-slate-200 p-3 rounded transition-all duration-300">Gateway Core</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="domain" class="scroll-mt-20 section-fade-in">
+            <h2 class="text-3xl font-bold text-center mb-4">Modelo de Dominio</h2>
+            <p class="text-lg text-slate-600 text-center max-w-3xl mx-auto mb-12">El diseño del dominio define las entidades clave del sistema. Haz clic en cada objeto para ver sus atributos.</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="domain-card bg-white p-6 rounded-xl shadow-lg border border-slate-200 cursor-pointer" data-domain="apiroute">
+                    <h3 class="text-xl font-semibold mb-2">ApiRoute</h3>
+                    <p class="text-slate-600 mb-4">Representación de una regla de enrutamiento, análoga a `RouteDefinition` de Spring Cloud Gateway.</p>
+                    <div class="domain-details hidden text-sm bg-slate-50 p-4 rounded-md">
+                        <ul>
+                            <li>- String id</li>
+                            <li>- String uri</li>
+                            <li>- int order</li>
+                            <li>- Map&lt;String, Object&gt; metadata</li>
+                            <li>- List&lt;PredicateDefinition&gt; predicates</li>
+                            <li>- List&lt;FilterDefinition&gt; filters</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="domain-card bg-white p-6 rounded-xl shadow-lg border border-slate-200 cursor-pointer" data-domain="audittrace">
+                    <h3 class="text-xl font-semibold mb-2">AuditTrace</h3>
+                    <p class="text-slate-600 mb-4">Modela una entrada de auditoría completa para una única transacción a través del gateway.</p>
+                    <div class="domain-details hidden text-sm bg-slate-50 p-4 rounded-md">
+                        <ul>
+                            <li>- UUID traceId</li>
+                            <li>- String routeId</li>
+                            <li>- String requestMethod, requestUri, clientIp</li>
+                            <li>- int responseStatusCode</li>
+                            <li>- long processingTimeMs</li>
+                            <li>- String requestHeaders, requestBody</li>
+                            <li>- String responseHeaders, responseBody</li>
+                            <li>- ZonedDateTime timestamp</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="domain-card bg-white p-6 rounded-xl shadow-lg border border-slate-200 cursor-pointer" data-domain="predicate">
+                    <h3 class="text-xl font-semibold mb-2">PredicateDefinition</h3>
+                    <p class="text-slate-600 mb-4">Representa una condición de coincidencia para activar una ruta (ej. por Path, Method, Header).</p>
+                    <div class="domain-details hidden text-sm bg-slate-50 p-4 rounded-md">
+                        <ul>
+                            <li>- String name</li>
+                            <li>- Map&lt;String, String&gt; args</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="domain-card bg-white p-6 rounded-xl shadow-lg border border-slate-200 cursor-pointer" data-domain="filter">
+                    <h3 class="text-xl font-semibold mb-2">FilterDefinition</h3>
+                    <p class="text-slate-600 mb-4">Representa una acción a realizar sobre la petición o la respuesta (ej. modificar path, añadir headers).</p>
+                    <div class="domain-details hidden text-sm bg-slate-50 p-4 rounded-md">
+                        <ul>
+                            <li>- String name</li>
+                            <li>- Map&lt;String, String&gt; args</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 mt-12 border-t border-slate-200">
+        <p class="text-slate-500">Aplicación interactiva generada a partir del Documento de Diseño Arquitectónico de CONECTA.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const mobileNav = document.getElementById('mobile-nav');
+
+            function setActiveLink() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 80) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                if (mobileNav.value !== `#${current}`) {
+                    mobileNav.value = `#${current}`;
+                }
+            }
+            
+            window.addEventListener('scroll', setActiveLink);
+            setActiveLink();
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            mobileNav.addEventListener('change', () => {
+                 document.querySelector(mobileNav.value).scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            const archComponents = document.querySelectorAll('.arch-component');
+            const archDetails = document.getElementById('architecture-details');
+            const componentDetails = {
+                ui: '<strong>Admin UI (Angular):</strong> Es una Single-Page Application (SPA) que constituye la cara visible del sistema para los administradores. Se comunica exclusivamente a través de APIs REST con el Config Service y el Audit Service.',
+                core: '<strong>Gateway Core (Spring Cloud Gateway):</strong> Es el corazón del sistema. Su única responsabilidad es el procesamiento de alta velocidad del tráfico: enrutamiento dinámico, ejecución de filtros y reenvío de peticiones. Está optimizado para un rendimiento máximo y una latencia mínima.',
+                config: '<strong>Config Service:</strong> Un microservicio que expone una API RESTful para gestionar el ciclo de vida de las configuraciones del gateway (rutas, endpoints, políticas). Persiste la información y notifica al Gateway Core de los cambios.',
+                audit: '<strong>Audit Service:</strong> Un microservicio con una API RESTful, diseñado para recibir y almacenar las trazas de auditoría de forma asíncrona para no impactar la latencia del gateway. Persiste los logs en un almacén optimizado para búsquedas.'
+            };
+
+            archComponents.forEach(component => {
+                component.addEventListener('click', () => {
+                    const componentKey = component.dataset.component;
+                    archDetails.innerHTML = `<p class="text-slate-700">${componentDetails[componentKey]}</p>`;
+                    archComponents.forEach(c => c.classList.remove('ring-2', 'ring-amber-500', 'bg-amber-100'));
+                    component.classList.add('ring-2', 'ring-amber-500', 'bg-amber-100');
+                });
+            });
+
+            const requirementsData = [
+                { id: 'FN-01', text: 'Enrutamiento dinámico de peticiones entrantes basado en URL.', category: 'must', just: 'Funcionalidad central de un API Gateway.' },
+                { id: 'FN-02', text: 'Validación de token JWT para tráfico entrante.', category: 'must', just: 'Requisito de seguridad no negociable para proteger servicios internos.' },
+                { id: 'FN-03', text: 'Adición automática de token JWT en tráfico saliente.', category: 'must', just: 'Requisito de seguridad para la integración con sistemas de terceros.' },
+                { id: 'FN-04', text: 'Auditoría completa de cada transacción (petición y respuesta).', category: 'must', just: 'Necesario para trazabilidad, depuración y cumplimiento normativo.' },
+                { id: 'FN-05', text: 'Permitir modificar rutas sin redesplegar la aplicación.', category: 'must', just: 'Clave para la agilidad operativa. Un redespliegue por cambio es inaceptable.' },
+                { id: 'FN-06', text: 'Gestión transaccional para garantizar integridad de datos.', category: 'must', just: 'Requerido para asegurar la integridad, especialmente en la escritura de auditorías.'},
+                { id: 'NFN-01', text: 'Alta disponibilidad y escalabilidad horizontal.', category: 'must', just: 'El gateway es un componente de misión crítica. Su fallo impactaría a toda la organización.'},
+                { id: 'UI-02', text: 'UI para gestionar la configuración de enrutamiento.', category: 'must', just: 'Indispensable para la "configuración en caliente" por parte de administradores.'},
+                { id: 'UI-01', text: 'UI para consultar los logs de auditoría.', category: 'should', just: 'Mejora la operatividad, pero la consulta inicial podría usar herramientas externas.' },
+                { id: 'FN-07', text: 'Integración con un sistema de métricas (ej. Prometheus).', category: 'could', just: 'Mejora la monitorización proactiva, pero no es esencial para el lanzamiento.' },
+                { id: 'FN-08', text: 'Soporte para otros mecanismos de autenticación (API Keys, OAuth2).', category: 'wont', just: 'Fuera del alcance inicial. El foco es implementar JWT de manera robusta.' },
+            ];
+            
+            const reqList = document.getElementById('requirements-list');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            const categoryColors = { must: '#d97706', should: '#f59e0b', could: '#fcd34d', wont: '#94a3b8' };
+            const categoryText = { must: 'Must', should: 'Should', could: 'Could', wont: 'Wont' };
+
+            function renderRequirements(filter) {
+                reqList.innerHTML = '';
+                const filteredData = (filter === 'all') ? requirementsData : requirementsData.filter(r => r.category === filter);
+
+                filteredData.forEach(req => {
+                    const item = document.createElement('div');
+                    item.className = 'requirement-item bg-white p-4 rounded-lg shadow-sm border-l-4';
+                    item.style.borderColor = categoryColors[req.category];
+                    item.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <p class="font-semibold text-slate-800 flex-1">${req.text}</p>
+                            <span class="text-xs font-bold uppercase ml-4 px-2 py-1 rounded-full text-white" style="background-color: ${categoryColors[req.category]}">${categoryText[req.category]}</span>
+                        </div>
+                        <p class="text-sm text-slate-500 mt-1 italic"><strong>Justificación:</strong> ${req.just}</p>
+                    `;
+                    reqList.appendChild(item);
+                });
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderRequirements(btn.dataset.filter);
+                });
+            });
+
+            const moscowCounts = requirementsData.reduce((acc, req) => {
+                acc[req.category] = (acc[req.category] || 0) + 1;
+                return acc;
+            }, {});
+
+            const ctx = document.getElementById('moscowChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Must-have', 'Should-have', 'Could-have', 'Won\'t-have'],
+                    datasets: [{
+                        data: [moscowCounts.must, moscowCounts.should, moscowCounts.could, moscowCounts.wont],
+                        backgroundColor: [
+                            categoryColors.must,
+                            categoryColors.should,
+                            categoryColors.could,
+                            categoryColors.wont
+                        ],
+                        borderColor: '#f8fafc',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+            
+            renderRequirements('all');
+
+            const domainCards = document.querySelectorAll('.domain-card');
+            domainCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const details = card.querySelector('.domain-details');
+                    details.classList.toggle('hidden');
+                });
+            });
+
+            const flowSelectorBtns = document.querySelectorAll('.flow-selector-btn');
+            const flowContents = document.querySelectorAll('.flow-content');
+
+            flowSelectorBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    flowSelectorBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const targetId = `flow-content-${btn.id.split('-')[2]}`;
+                    flowContents.forEach(content => {
+                        if(content.id === targetId) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            function setupFlowInteraction(flowId) {
+                const steps = document.querySelectorAll(`#flow-${flowId}-steps li`);
+                steps.forEach(step => {
+                    step.addEventListener('click', () => {
+                        steps.forEach(s => s.classList.remove('flow-step-highlight', 'font-bold'));
+                        step.classList.add('flow-step-highlight', 'font-bold');
+
+                        const highlights = JSON.parse(step.dataset.highlights);
+                        const components = document.querySelectorAll(`#flow-content-${flowId} .flow-component`);
+                        
+                        components.forEach(comp => {
+                           const compId = comp.id.split('-')[2];
+                           if(highlights.includes(compId)){
+                               comp.classList.add('arch-component-highlight');
+                           } else {
+                               comp.classList.remove('arch-component-highlight');
+                           }
+                        });
+                    });
+                });
+            }
+            setupFlowInteraction('1');
+            setupFlowInteraction('2');
+
+        });
+    </script>
+</body>
+</html>

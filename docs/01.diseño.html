@@ -1,0 +1,149 @@
+<!DOCTYPE html []>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="MarkdownViewer++" />
+    <title>01.diseño.md</title>
+    <style type="text/css">
+            
+/* Avoid page breaks inside the most common attributes, especially for exports (i.e. PDF) */
+td, h1, h2, h3, h4, h5, p, ul, ol, li {
+    page-break-inside: avoid; 
+}
+
+        </style>
+  </head>
+  <body>
+    <h1 id="arquitectura-del-sistema-conecta-api-gateway">Arquitectura del Sistema CONECTA API Gateway</h1>
+    <h2 id="enfoque-de-implementacion">1. Enfoque de Implementación</h2>
+    <p>Para el desarrollo del sistema CONECTA API Gateway, analizaremos las áreas complejas de los requisitos y seleccionaremos las tecnologías adecuadas para su implementación.</p>
+    <h3 id="analisis-de-puntos-dificiles">1.1 Análisis de Puntos Difíciles</h3>
+    <ol>
+      <li>
+        <strong>Enrutamiento Dinámico</strong>: Debe ser configurable sin reinicio y manejar reglas complejas.</li>
+      <li>
+        <strong>Seguridad JWT</strong>: Manejo eficiente de validación y generación de tokens.</li>
+      <li>
+        <strong>Transaccionalidad</strong>: Garantizar la integridad en un entorno distribuido.</li>
+      <li>
+        <strong>Alta Disponibilidad</strong>: Asegurar operación continua y resistencia a fallos.</li>
+      <li>
+        <strong>Almacenamiento de Auditoría</strong>: Gestionar grandes volúmenes de datos de auditoría de manera eficiente.</li>
+      <li>
+        <strong>Escalabilidad</strong>: Soportar alto volumen de peticiones concurrentes.</li>
+    </ol>
+    <h3 id="seleccion-de-frameworks">1.2 Selección de Frameworks</h3>
+    <h4 id="backend-spring-boot">Backend (Spring Boot)</h4>
+    <ol>
+      <li>
+        <strong>Spring Cloud Gateway</strong>: Proporciona capacidades avanzadas de enrutamiento, predicados y filtros.</li>
+      <li>
+        <strong>Spring Security</strong>: Para la autenticación y autorización mediante JWT.</li>
+      <li>
+        <strong>Spring Data JPA</strong>: Para la persistencia de datos de configuración y auditoría.</li>
+      <li>
+        <strong>Spring Boot Actuator</strong>: Para monitorización y métricas.</li>
+      <li>
+        <strong>Resilience4j</strong>: Para implementar patrones como Circuit Breaker y Rate Limiting.</li>
+      <li>
+        <strong>Micrometer</strong>: Para captura y exposición de métricas.</li>
+      <li>
+        <strong>Flyway</strong>: Para gestión de versiones de la base de datos.</li>
+    </ol>
+    <h4 id="frontend-angular-18">Frontend (Angular 18)</h4>
+    <ol>
+      <li>
+        <strong>NgRx</strong>: Para gestión de estado en aplicaciones Angular.</li>
+      <li>
+        <strong>Angular Material</strong>: Componentes UI prediseñados.</li>
+      <li>
+        <strong>ng2-charts</strong>: Para visualización de datos y métricas.</li>
+      <li>
+        <strong>NgxDatatables</strong>: Para visualización tabulada de datos de auditoría.</li>
+      <li>
+        <strong>RxJS</strong>: Programación reactiva para manejo de flujos asincrónicos.</li>
+    </ol>
+    <h4 id="herramientas-adicionales">Herramientas Adicionales</h4>
+    <ol>
+      <li>
+        <strong>ElasticSearch</strong>: Para almacenamiento y búsqueda eficiente de logs de auditoría.</li>
+      <li>
+        <strong>Redis</strong>: Como caché distribuida para alto rendimiento.</li>
+      <li>
+        <strong>Kafka</strong>: Para procesamiento de eventos de auditoría de manera asíncrona.</li>
+      <li>
+        <strong>Docker &amp; Kubernetes</strong>: Para contenerización y orquestación.</li>
+      <li>
+        <strong>Prometheus &amp; Grafana</strong>: Monitorización y alertas.</li>
+    </ol>
+    <h2 id="arquitectura-del-sistema">2. Arquitectura del Sistema</h2>
+    <h3 id="vision-general-de-componentes">2.1 Visión General de Componentes</h3>
+    <pre>
+      <code>+---------------------+     +------------------+     +--------------------+
+|                     |     |                  |     |                    |
+| Sistemas Externos   |&lt;---&gt;|  IBM DataPower   |&lt;---&gt;|  CONECTA Gateway   |
+|                     |     |                  |     |                    |
++---------------------+     +------------------+     +------+-------------+
+                                                           |
+                                                           v
++---------------------+     +------------------+     +--------------------+
+|                     |     |                  |     |                    |
+| Auditoría/Monitoreo |&lt;---&gt;| Configuración y  |&lt;---&gt;| Servicios Internos |
+|                     |     | Administración   |     |                    |
++---------------------+     +------------------+     +--------------------+
+</code>
+    </pre>
+    <h3 id="arquitectura-de-componentes">2.2 Arquitectura de Componentes</h3>
+    <p>La arquitectura de CONECTA se basa en un diseño modular con varios componentes independientes que trabajan en conjunto:</p>
+    <h4 id="core-gateway-spring-cloud-gateway">2.2.1 Core Gateway (Spring Cloud Gateway)</h4>
+    <ul>
+      <li>
+        <strong>Router Engine</strong>: Maneja el enrutamiento de peticiones basado en reglas.</li>
+      <li>
+        <strong>Security Filter</strong>: Implementa validación y generación de JWT.</li>
+      <li>
+        <strong>Transaction Manager</strong>: Asegura la integridad de las operaciones.</li>
+      <li>
+        <strong>Circuit Breaker</strong>: Previene cascadas de fallos.</li>
+    </ul>
+    <h4 id="sistema-de-configuracion">2.2.2 Sistema de Configuración</h4>
+    <ul>
+      <li>
+        <strong>Config Repository</strong>: Almacena configuraciones de rutas, seguridad, etc.</li>
+      <li>
+        <strong>Dynamic Config Manager</strong>: Permite cambios en caliente sin reinicio.</li>
+    </ul>
+    <h4 id="sistema-de-auditoria">2.2.3 Sistema de Auditoría</h4>
+    <ul>
+      <li>
+        <strong>Audit Logger</strong>: Captura datos de auditoría.</li>
+      <li>
+        <strong>Audit Repository</strong>: Almacena logs para consulta.</li>
+      <li>
+        <strong>Audit Search Engine</strong>: Permite búsquedas avanzadas.</li>
+    </ul>
+    <h4 id="componente-de-administracion">2.2.4 Componente de Administración</h4>
+    <ul>
+      <li>
+        <strong>Admin API</strong>: APIs RESTful para gestión.</li>
+      <li>
+        <strong>Admin UI</strong>: Interfaz Angular para administradores.</li>
+    </ul>
+    <h4 id="sistema-de-monitoreo">2.2.5 Sistema de Monitoreo</h4>
+    <ul>
+      <li>
+        <strong>Metric Collector</strong>: Recopila métricas de rendimiento.</li>
+      <li>
+        <strong>Health Check</strong>: Verifica estado del sistema.</li>
+      <li>
+        <strong>Alert Manager</strong>: Gestiona notificaciones.</li>
+    </ul>
+    <h2 id="modelo-de-datos-y-interfaces">3. Modelo de Datos y Interfaces</h2>
+    <h3 id="diagrama-de-clases">3.1 Diagrama de Clases</h3>
+    <p>A continuación se presenta el modelo de datos principal y las interfaces del sistema:</p>
+    <p>
+      <img src="esquema1.svg" alt="" />
+    </p>
+    <p>esto es una prueba</p>
+  </body>
+</html>

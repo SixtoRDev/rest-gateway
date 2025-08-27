@@ -1,0 +1,191 @@
+classDiagram
+    class ApiGateway {
+        <<service>>
+        -RouterEngine routerEngine
+        -SecurityManager securityManager
+        -AuditService auditService
+        -TransactionManager transactionManager
+        +initialize()
+        +handleRequest(HttpRequest request) HttpResponse
+        +shutdown()
+    }
+    
+    class RouterEngine {
+        -RouteRepository routeRepository
+        -LoadBalancer loadBalancer
+        -CircuitBreakerFactory circuitBreakerFactory
+        +initRoutes()
+        +routeRequest(HttpRequest request) ServiceEndpoint
+        +updateRoute(Route route)
+        +deleteRoute(String routeId)
+        +getRoutes() List~Route~
+    }
+    
+    class SecurityManager {
+        -TokenValidator tokenValidator
+        -TokenGenerator tokenGenerator
+        -SecurityConfigRepository securityConfigRepository
+        +validateToken(String token, String audience) boolean
+        +generateToken(Map~String, Object~ claims) String
+        +updateSecurityConfig(SecurityConfig config)
+        +getSecurityConfigs() List~SecurityConfig~
+    }
+    
+    class AuditService {
+        -AuditRepository auditRepository
+        -EventPublisher eventPublisher
+        -CorrelationIdGenerator correlationIdGenerator
+        +logTransaction(Transaction transaction)
+        +findTransactions(AuditCriteria criteria) List~AuditRecord~
+        +exportAudit(AuditCriteria criteria, String format) File
+    }
+    
+    class TransactionManager {
+        -IdempotencyStore idempotencyStore
+        -TransactionRepository transactionRepository
+        +beginTransaction(String correlationId) Transaction
+        +commitTransaction(Transaction transaction)
+        +rollbackTransaction(Transaction transaction)
+        +isIdempotent(String requestId) boolean
+    }
+    
+    class Route {
+        -String id
+        -String path
+        -String targetService
+        -Map~String, String~ headers
+        -RoutingPolicy policy
+        -TimeoutConfig timeout
+        -RetryConfig retry
+        -boolean enabled
+        +getId() String
+        +getPath() String
+        +getTargetService() String
+        +getHeaders() Map~String, String~
+        +getPolicy() RoutingPolicy
+        +getTimeout() TimeoutConfig
+        +getRetry() RetryConfig
+        +isEnabled() boolean
+    }
+    
+    class SecurityConfig {
+        -String id
+        -String name
+        -JwtConfig inboundJwt
+        -JwtConfig outboundJwt
+        -List~String~ allowedIps
+        -List~String~ routeIds
+        +getId() String
+        +getName() String
+        +getInboundJwt() JwtConfig
+        +getOutboundJwt() JwtConfig
+        +getAllowedIps() List~String~
+        +getRouteIds() List~String~
+    }
+    
+    class JwtConfig {
+        -String issuer
+        -String audience
+        -String secret
+        -String publicKey
+        -String privateKey
+        -long validitySeconds
+        -List~String~ requiredClaims
+        +validate(String token) boolean
+        +generate(Map~String, Object~ claims) String
+        +getIssuer() String
+        +getAudience() String
+    }
+    
+    class AuditRecord {
+        -String id
+        -String correlationId
+        -Instant timestamp
+        -String sourceIp
+        -String targetService
+        -String path
+        -String method
+        -Map~String, String~ headers
+        -String requestBody
+        -String responseBody
+        -int statusCode
+        -long responseTimeMs
+        -String userId
+        +getId() String
+        +getCorrelationId() String
+        +getTimestamp() Instant
+        +getSourceIp() String
+        +getTargetService() String
+        +getPath() String
+        +getMethod() String
+    }
+    
+    class Transaction {
+        -String id
+        -String correlationId
+        -TransactionStatus status
+        -Instant startTime
+        -Instant endTime
+        -List~TransactionStep~ steps
+        +addStep(TransactionStep step)
+        +complete()
+        +fail(Exception e)
+        +getId() String
+        +getStatus() TransactionStatus
+    }
+    
+    class TransactionStep {
+        -String id
+        -String description
+        -TransactionStepStatus status
+        -Instant startTime
+        -Instant endTime
+        -Map~String, Object~ metadata
+        +start()
+        +complete()
+        +fail(Exception e)
+    }
+    
+    class AdminController {
+        -RouteService routeService
+        -SecurityService securityService
+        -AuditService auditService
+        -MetricsService metricsService
+        +getRoutes() List~Route~
+        +createRoute(Route route) Route
+        +updateRoute(String id, Route route) Route
+        +deleteRoute(String id)
+        +getSecurityConfigs() List~SecurityConfig~
+        +updateSecurityConfig(SecurityConfig config)
+        +searchAuditLogs(AuditCriteria criteria) List~AuditRecord~
+        +getMetrics(String metricType) List~Metric~
+    }
+    
+    class MetricsService {
+        -MetricRegistry metricRegistry
+        -AlertService alertService
+        +collectMetrics()
+        +getMetrics(String metricType) List~Metric~
+        +checkThresholds()
+    }
+    
+    class ConfigurationService {
+        -ConfigRepository configRepository
+        -EventPublisher eventPublisher
+        +loadConfiguration()
+        +saveConfiguration(Configuration config)
+        +refreshConfiguration()
+    }
+    
+    ApiGateway --> RouterEngine
+    ApiGateway --> SecurityManager
+    ApiGateway --> AuditService
+    ApiGateway --> TransactionManager
+    RouterEngine --> Route
+    SecurityManager --> SecurityConfig
+    SecurityConfig --> JwtConfig
+    AuditService --> AuditRecord
+    TransactionManager --> Transaction
+    Transaction --> TransactionStep
+    AdminController --> MetricsService
+    AdminController --> ConfigurationService

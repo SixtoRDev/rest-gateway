@@ -1,0 +1,35 @@
+@startuml
+title Flujo de Procesamiento de Petición Entrante Válida
+
+actor "Sistema Externo" as Client
+participant "DataPower" as DP
+participant "Gateway Core" as GW
+participant "TransactionService" as TS
+participant "AuditService" as AS
+participant "SecurityService" as SS
+participant "RouterEngine" as RE
+actor "Servicio Interno" as Backend
+
+autonumber
+
+Client -> DP : HTTPS request
+DP -> GW : forwardRequest
+GW -> TS : beginTransaction
+TS --> GW : transaction
+GW -> AS : logTransactionStart
+GW -> SS : validateToken
+SS --> GW : tokenValid
+GW -> RE : routeRequest
+RE --> GW : endpoint
+GW -> Backend : forwardRequest
+Backend --> GW : Response
+GW --> DP : response
+DP --> Client : response
+GW -> AS : logTransaction
+GW -> TS : commitTransaction
+
+
+note right of GW : Confirmar la transaccionalidad \n incluyendo la recepción del Sistema Externo
+
+
+@enduml
