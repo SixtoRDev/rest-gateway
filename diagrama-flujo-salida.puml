@@ -1,0 +1,32 @@
+@startuml
+title Flujo de Información - Tráfico Saliente
+
+start
+:Petición desde Servicio Interno;
+:CONECTA recibe petición;
+:Extraer clave de sistema externo;
+
+if (¿Existe configuración JWT?) then (No)
+  :Respuesta 500 Internal Error;
+  :Registrar en Auditoría;
+  stop
+else (Sí)
+  :Generar token JWT;
+  :Añadir token a headers;
+  :Iniciar transacción;
+  :Registrar inicio en Auditoría;
+  :Reenviar petición vía Datapower;
+  
+  if (¿Respuesta exitosa?) then (No)
+    :Rollback transacción;
+    :Registrar error en Auditoría;
+    :Respuesta de error al servicio interno;
+  else (Sí)
+    :Commit transacción;
+    :Registrar éxito en Auditoría;
+    :Reenviar respuesta al servicio interno;
+  endif
+endif
+
+stop
+@enduml

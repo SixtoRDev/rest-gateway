@@ -1,0 +1,122 @@
+@startuml
+class User {
+  - id: Long
+  - username: String
+  - password: String
+  - role: UserRole
+  - active: Boolean
+  - createdAt: LocalDateTime
+  - updatedAt: LocalDateTime
+  - deletedAt: LocalDateTime
+  + authenticate(): Boolean
+  + hasPermission(permission: String): Boolean
+}
+
+enum UserRole {
+  ADMINISTRATOR
+  AUDITOR
+}
+
+class InBoundRouteConfiguration {
+  - id: Long
+  - routeKey: String
+  - targetServiceUrl: String
+  - targetServiceName: String
+  - method: HttpMethod
+  - active: Boolean
+  - createdAt: LocalDateTime
+  - updatedAt: LocalDateTime
+  - deletedAt: LocalDateTime
+  + matches(request: HttpRequest): Boolean
+  + buildTargetUrl(request: HttpRequest): String
+}
+
+class OutboundRouteConfiguration {
+  - id: Long
+  - internalServiceKey: String
+  - externalSystemKey: String
+  - targetExternalUrl: String
+  - jwtConfigId: Long
+  - method: HttpMethod
+  - active: Boolean
+  - createdAt: LocalDateTime
+  - updatedAt: LocalDateTime
+  - deletedAt: LocalDateTime
+  + matchesRequest(request: HttpRequest): Boolean
+  + getTargetUrl(): String
+  + getJWTConfig(): JWTConfiguration
+}
+
+class JWTConfiguration {
+  - id: Long
+  - serviceKey: String
+  - tokenSecret: String
+  - tokenIssuer: String
+  - expirationMinutes: Integer
+  - active: Boolean
+  - createdAt: LocalDateTime
+  - updatedAt: LocalDateTime
+  - deletedAt: LocalDateTime
+  + generateToken(claims: Map): String
+  + validateToken(token: String): Boolean
+}
+
+class AuditLog {
+  - id: Long
+  - transactionId: String
+  - sourceSystem: String
+  - targetSystem: String
+  - httpMethod: String
+  - requestPath: String
+  - requestHeaders: String
+  - requestBody: String
+  - responseStatus: Integer
+  - responseHeaders: String
+  - responseBody: String
+  - processingTime: Long
+  - timestamp: LocalDateTime
+  - userId: Long
+  + toJson(): String
+  + fromRequest(request: HttpRequest): AuditLog
+}
+
+class Transaction {
+  - id: String
+  - status: TransactionStatus
+  - startTime: LocalDateTime
+  - endTime: LocalDateTime
+  - errorMessage: String
+  + begin(): void
+  + commit(): void
+  + rollback(): void
+}
+
+enum TransactionStatus {
+  STARTED
+  COMPLETED
+  FAILED
+  ROLLED_BACK
+}
+
+class SystemConfiguration {
+  - id: Long
+  - configKey: String
+  - configValue: String
+  - description: String
+  - active: Boolean
+  - createdAt: LocalDateTime
+  - updatedAt: LocalDateTime
+  - deletedAt: LocalDateTime
+  + getValue(): String
+  + setValue(value: String): void
+}
+
+' Relationships
+User ||--o{ AuditLog : "performs actions"
+InboundRouteConfiguration ||--o{ AuditLog : "inbound routes through"
+OutboundRouteConfiguration ||--o{ AuditLog : "outbound routes through"
+OutboundRouteConfiguration }o--|| JWTConfiguration : "uses for token generation"
+JWTConfiguration ||--o{ AuditLog : "secures"
+Transaction ||--o{ AuditLog : "contains"
+
+@enduml

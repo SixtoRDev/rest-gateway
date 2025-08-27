@@ -1,0 +1,61 @@
+@startuml
+package "CONECTA Frontend (Angular 18)" {
+  [UI Authentication] as UIAuth
+  [Admin Dashboard] as AdminDash
+  [Audit Console] as AuditConsole
+  [Configuration Management] as ConfigMgmt
+}
+
+package "CONECTA Backend (Spring Boot 3.5.3)" {
+  package "Core Gateway" {
+    [Gateway Controller] as GatewayCtrl
+    [Routing Engine] as RoutingEngine
+    [Security Module] as SecurityMod
+  }
+  
+  package "Management Services" {
+    [User Management] as UserMgmt
+    [Configuration Service] as ConfigService
+    [Audit Service] as AuditService
+  }
+  
+  package "Infrastructure" {
+    [JWT Handler] as JWTHandler
+    [Transaction Manager] as TxManager
+    [Database Access] as DBAccess
+  }
+}
+
+package "External Systems" {
+  [IBM Datapower] as Datapower
+  [Internal Services] as InternalSvcs
+  [External Systems] as ExternalSys
+  [Database] as DB
+}
+
+' Frontend connections
+UIAuth --> GatewayCtrl : Authentication
+AdminDash --> UserMgmt : User Management
+AdminDash --> ConfigService : Configuration
+AuditConsole --> AuditService : Audit Queries
+
+' Core Gateway connections
+Datapower --> GatewayCtrl : Incoming/Outgoing Traffic
+GatewayCtrl --> RoutingEngine : Route Resolution
+GatewayCtrl --> SecurityMod : Security Validation
+RoutingEngine --> InternalSvcs : Internal Routing
+SecurityMod --> JWTHandler : Token Operations
+
+' Management Services
+UserMgmt --> DBAccess : User Data
+ConfigService --> DBAccess : Configuration Data
+AuditService --> DBAccess : Audit Data
+
+' Infrastructure
+TxManager --> DBAccess : Transaction Control
+DBAccess --> DB : Data Persistence
+
+' External routing
+RoutingEngine --> ExternalSys : External Calls (via Datapower)
+
+@enduml

@@ -1,0 +1,40 @@
+@startuml
+title Flujo de Información - Tráfico Entrante
+
+start
+:Petición desde Sistema Externo;
+:Llega a IBM Datapower;
+:Datapower reenvía a CONECTA;
+:CONECTA recibe petición;
+
+if (¿Contiene token JWT válido?) then (No)
+  :Respuesta 401 Unauthorized;
+  :Registrar en Auditoría;
+  stop
+else (Sí)
+  :Validar token JWT;
+  :Extraer clave de enrutamiento de URL;
+  
+  if (¿Existe configuración de ruta?) then (No)
+    :Respuesta 404 Not Found;
+    :Registrar en Auditoría;
+    stop
+  else (Sí)
+    :Iniciar transacción;
+    :Registrar inicio en Auditoría;
+    :Reenviar petición a servicio interno;
+    
+    if (¿Respuesta exitosa?) then (No)
+      :Rollback transacción;
+      :Registrar error en Auditoría;
+      :Respuesta de error al cliente;
+    else (Sí)
+      :Commit transacción;
+      :Registrar éxito en Auditoría;
+      :Reenviar respuesta al cliente;
+    endif
+  endif
+endif
+
+stop
+@enduml

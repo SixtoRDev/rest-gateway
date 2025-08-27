@@ -1,0 +1,31 @@
+@startuml
+title Flujo de Gestión Administrativa
+
+start
+:Usuario accede a UI;
+:Formulario de login;
+
+if (¿Credenciales válidas?) then (No)
+  :Mostrar error de autenticación;
+  stop
+else (Sí)
+  :Generar sesión;
+  
+  if (¿Rol = ADMINISTRATOR?) then (Sí)
+    :Acceso a Dashboard Administrador;
+    :Gestión de usuarios, configuración;
+    :Todas las acciones generan auditoría;
+  else (AUDITOR)
+    :Acceso a Console Auditoría;
+    :Consulta de logs;
+    :Solo lectura;
+  endif
+endif
+
+:Acción del usuario;
+:Registrar en auditoría;
+:Aplicar cambios (si procede);
+:Actualizar UI;
+
+stop
+@enduml
